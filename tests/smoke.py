@@ -17,7 +17,7 @@ with sync_playwright() as p:
     r = pg.evaluate("calcula(new Date(1996,9,7),65,new Date(2026,9,7))"); assert r['dias'] == 1820 and r['fds'] == 910, r
     assert 'erro' in pg.evaluate("calcula(new Date(1950,0,1),65)") and 'erro' in pg.evaluate("calcula(new Date(2020,0,1),65)")
     pg.click('#tg'); assert 'coloque sua data' in pg.inner_text('#delta'); pg.wait_for_timeout(600); pg.click('#tg')  # sem data: só a cor
-    pg.fill('#nasc', '1996-10-07'); pg.dispatch_event('#nasc', 'change'); pg.wait_for_timeout(1800)
+    pg.fill('#nasc', ''); pg.type('#nasc', '07101996'); pg.wait_for_timeout(1800)
     assert num(pg) == '3.640', num(pg)
     pg.screenshot(path=f'{out}/02-desligado.png')
     for _ in range(2):  # vai e volta para o vídeo

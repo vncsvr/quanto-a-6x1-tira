@@ -22,7 +22,9 @@ function le(nasc: string, apos: string): { R: Conta | null; err: string } {
   if (!nasc) return { R: null, err: "" };
   const ap = parseInt(apos, 10);
   if (!(ap >= 50 && ap <= 80)) return { R: null, err: "Idade de aposentadoria entre 50 e 80." };
-  const [y, mes, d] = nasc.split("-").map(Number);
+  // aceita DD/MM/AAAA (o que a pessoa digita) e AAAA-MM-DD (testes antigos)
+  const [d, mes, y] = nasc.includes("/") ? nasc.split("/").map(Number) : nasc.split("-").map(Number).reverse();
+  if (!(y >= 1940 && mes >= 1 && mes <= 12 && d >= 1 && d <= 31)) return { R: null, err: "Confira a data: dia/mês/ano, como 07/10/1996." };
   const r = calcula(new Date(y, mes - 1, d), ap);
   return "erro" in r ? { R: null, err: r.erro } : { R: r, err: "" };
 }
@@ -41,8 +43,15 @@ export function Calculadora() {
     const f = () => { setDados({ nasc: nascRef.current!.value, apos: aposRef.current!.value }); setPulso((p) => p + 1); };
     const els = [nascRef.current!, aposRef.current!];
     els.forEach((e) => e.addEventListener("change", f));
+    // campo de texto numérico: põe as barras sozinho e calcula assim que a data fica completa
+    const mascara = () => {
+      const n = nascRef.current!, dg = n.value.replace(/\D/g, "").slice(0, 8);
+      n.value = [dg.slice(0, 2), dg.slice(2, 4), dg.slice(4)].filter(Boolean).join("/");
+      if (dg.length === 8) f();
+    };
+    nascRef.current!.addEventListener("input", mascara);
     Object.assign(window, { calcula, cena, bloco, display }); // para os testes (smoke e og)
-    return () => els.forEach((e) => e.removeEventListener("change", f));
+    return () => { els.forEach((e) => e.removeEventListener("change", f)); nascRef.current?.removeEventListener("input", mascara); };
   }, []);
 
   useEffect(() => { document.body.classList.toggle("gray", on); }, [on]);
@@ -97,7 +106,7 @@ export function Calculadora() {
           </h1>
           <div>
           <div className="grid grid-cols-[1fr_104px] gap-2.5">
-            <div><label className="rotulo" htmlFor="nasc">Data de nascimento</label><Input ref={nascRef} type="date" id="nasc" min="1940-01-01" /></div>
+            <div><label className="rotulo" htmlFor="nasc">Data de nascimento</label><Input ref={nascRef} type="text" inputMode="numeric" autoComplete="bday" placeholder="DD/MM/AAAA" maxLength={10} id="nasc" /></div>
             <div><label className="rotulo" htmlFor="apos">Aposenta aos</label><Input ref={aposRef} type="number" id="apos" defaultValue={65} min={50} max={80} inputMode="numeric" className="text-center" /></div>
           </div>
           <p className="mt-1 text-[12px] leading-snug text-mute">Regra geral: 65 (homens), 62 (mulheres). A conta roda no seu celular: nada é enviado.</p>
