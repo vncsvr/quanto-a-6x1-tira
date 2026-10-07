@@ -3,4 +3,4 @@
 :HL["/quanto-a-6x1-tira/_next/static/media/montserrat-s.p.0s216eisv2o7-.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/quanto-a-6x1-tira/logo-oficial-lula-2026.png","image"]
 1:[["children",{"s":"__PAGE__","h":160}]]
-0:{"b":"vchS_TYWsxFkaT_BPmuEn","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"lJOLUuBNM6EOIIeQHQ7eg","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
