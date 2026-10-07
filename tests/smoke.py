@@ -1,24 +1,38 @@
-# Smoke: conta certa, animação, card do story, e ZERO requisição para fora do próprio site.
+# Smoke: conta certa, toggle liga/desliga, card do story, e ZERO requisição para fora do próprio site.
+# Uso: python3 tests/smoke.py <pasta-saida>   (grava também toggle.webm na pasta)
 import sys, http.server, threading, functools, os
 from playwright.sync_api import sync_playwright
 out = sys.argv[1] if len(sys.argv) > 1 else '/tmp'
-H = functools.partial(http.server.SimpleHTTPRequestHandler, directory='docs')
-srv = http.server.ThreadingHTTPServer(('127.0.0.1', 0), H); threading.Thread(target=srv.serve_forever, daemon=True).start(); BASE=f'http://127.0.0.1:{srv.server_address[1]}'
+class Q(http.server.SimpleHTTPRequestHandler):
+    def log_message(self, *a): pass
+srv = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Q, directory='docs'))
+threading.Thread(target=srv.serve_forever, daemon=True).start(); BASE = f'http://127.0.0.1:{srv.server_address[1]}'
+num = lambda pg: pg.evaluate("document.getElementById('n').getAttribute('aria-label')")
 with sync_playwright() as p:
-    b = p.chromium.launch(); pg = b.new_page(viewport={'width': 390, 'height': 844}, device_scale_factor=2, accept_downloads=True)
-    externos = []; pg.on('request', lambda r: None if r.url.startswith((BASE, 'data:', 'blob:')) else externos.append(r.url))
-    pg.goto(BASE+'/'); pg.wait_for_timeout(500); pg.screenshot(path=f'{out}/01-entrada.png')
-    # conta pura: 30 anos exatos hoje, aposentadoria 65 -> 35 anos x 52 = 1820
+    b = p.chromium.launch()
+    ctx = b.new_context(viewport={'width': 390, 'height': 844}, device_scale_factor=2, accept_downloads=True,
+                        record_video_dir=out, record_video_size={'width': 780, 'height': 1688})
+    pg = ctx.new_page(); externos = []; erros = []
+    pg.on('request', lambda r: None if r.url.startswith((BASE, 'data:', 'blob:')) else externos.append(r.url))
+    pg.on('pageerror', lambda e: erros.append(str(e)))
+    pg.goto(BASE + '/'); pg.wait_for_timeout(800); pg.screenshot(path=f'{out}/01-entrada.png')
     r = pg.evaluate("calcula(new Date(1996,9,7),65,new Date(2026,9,7))"); assert r['dias'] == 1820 and r['fds'] == 910, r
-    assert 'erro' in pg.evaluate("calcula(new Date(1950,0,1),65)")
-    assert 'erro' in pg.evaluate("calcula(new Date(2020,0,1),65)")
-    pg.click('#b61'); assert 'nascimento' in pg.inner_text('#err')
-    pg.fill('#nasc', '1996-10-07'); pg.click('#b61'); pg.wait_for_timeout(1400); pg.screenshot(path=f'{out}/02-transicao.png')
-    pg.wait_for_timeout(3000); n = pg.inner_text('#n'); assert n in ('1.820', '1.819', '1.821'), n
-    pg.screenshot(path=f'{out}/03-resultado.png', full_page=True)
+    assert 'erro' in pg.evaluate("calcula(new Date(1950,0,1),65)") and 'erro' in pg.evaluate("calcula(new Date(2020,0,1),65)")
+    pg.click('#tg'); assert 'coloque sua data' in pg.inner_text('#delta'); pg.wait_for_timeout(600); pg.click('#tg')  # sem data: só a cor
+    pg.fill('#nasc', '1996-10-07'); pg.dispatch_event('#nasc', 'change'); pg.wait_for_timeout(1800)
+    assert num(pg) == '3.640', num(pg)
+    pg.screenshot(path=f'{out}/02-desligado.png')
+    for _ in range(2):  # vai e volta para o vídeo
+        pg.click('#tg'); pg.wait_for_timeout(2600); pg.click('#tg'); pg.wait_for_timeout(2200)
+    pg.click('#tg'); pg.wait_for_timeout(2800)
+    assert num(pg) == '1.820', num(pg)
+    assert pg.get_attribute('#tg', 'aria-checked') == 'true' and 'gray' in pg.evaluate('document.body.className')
+    pg.screenshot(path=f'{out}/03-ligado.png'); pg.screenshot(path=f'{out}/04-resultado.png', full_page=True)
     with pg.expect_download() as d: pg.click('#story')
-    d.value.save_as(f'{out}/04-story.png')
+    d.value.save_as(f'{out}/05-story.png')
+    pg.evaluate('scrollTo(0,0)'); pg.click('#tg'); pg.wait_for_timeout(2000); assert 'gray' not in pg.evaluate('document.body.className')
     assert not externos, externos
-    print('OK contador', n, '| externos:', len(externos))
-    b.close()
+    assert not erros, erros
+    v = pg.video.path(); ctx.close(); os.replace(v, f'{out}/toggle.webm'); b.close()
+    print('OK | ligado 1.820 · desligado 3.640 · externos:', len(externos), '· erros JS:', len(erros))
 srv.shutdown()

@@ -24,7 +24,7 @@ body.gray{background:var(--gray)}
 main{max-width:440px;margin:0 auto;min-height:100dvh}
 h1,h2,.num{font-family:'Bricolage Grotesque',system-ui,sans-serif;letter-spacing:-.02em}
 /* cena */
-.scene{position:relative;height:min(46dvh,420px);overflow:hidden}
+.scene{position:relative;height:min(24dvh,240px);overflow:hidden}
 .scene .bg{width:100%;height:100%;display:block;transition:filter 1.6s ease}
 body.gray .scene .bg{filter:grayscale(1) brightness(.92) contrast(.9)}
 .cloud{position:absolute;left:50%;top:6%;width:170px;transform:translate(-50%,-160%);opacity:0;transition:transform 1.2s cubic-bezier(.2,.8,.2,1) .5s,opacity .6s .5s}
@@ -34,41 +34,69 @@ body.gray .cloud{transform:translate(-50%,0);opacity:1}
 @keyframes rain{from{transform:translateY(-6px);opacity:0}30%{opacity:1}to{transform:translateY(26px);opacity:0}}
 .sun{transition:opacity 1.2s}
 body.gray .sun{opacity:0}
-/* formulário */
-.pad{padding:20px 24px 32px}
-h1{font-size:clamp(30px,8.6vw,36px);line-height:1.05;font-weight:800}
-.lead{color:var(--ink2);margin:10px 0 22px;font-size:15px}
+/* entrada */
+.pad{padding:18px 24px 32px}
+h1{font-size:clamp(28px,8vw,34px);line-height:1.05;font-weight:800}
+.lead{color:var(--ink2);margin:8px 0 18px;font-size:15px}
 label,.lbl{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin:0 0 6px}
-input[type=date],input[type=number]{width:100%;height:52px;border:1.5px solid var(--ink);border-radius:14px;padding:0 14px;font:500 18px 'DM Sans',sans-serif;color:var(--ink);background:#fff;appearance:none}
-input:focus-visible,button:focus-visible{outline:3px solid var(--sea);outline-offset:2px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
-.esc{height:68px;border:0;border-radius:16px;color:#fff;font:700 17px/1.15 'Bricolage Grotesque',sans-serif;cursor:pointer;transition:transform .15s}
-.esc small{display:block;font:500 13px 'DM Sans',sans-serif;opacity:.85}
-.esc:active{transform:scale(.97)}
-.e52{background:var(--ink)}.e61{background:var(--coral)}
-.aposent{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;color:var(--ink2);font-size:14px}
-.aposent input{width:72px;height:38px;font-size:16px;text-align:center;padding:0 6px}
-.hint{color:var(--mute);font-size:13px;text-align:center;margin-top:8px}
-.err{color:#C0392B;font-weight:500;text-align:center;margin-top:12px;min-height:1em}
+.dados{display:grid;grid-template-columns:1fr 104px;gap:10px}
+input[type=date],input[type=number]{width:100%;height:52px;border:1.5px solid var(--ink);border-radius:14px;padding:0 12px;font:500 17px 'DM Sans',sans-serif;color:var(--ink);background:#fff;appearance:none}
+input[type=number]{text-align:center}
+input:focus-visible,button:focus-visible{outline:3px solid var(--sea);outline-offset:3px}
+.hint{color:var(--mute);font-size:12.5px;margin-top:6px}
+.err{color:#C0392B;font-weight:500;text-align:center;margin-top:10px;min-height:1em}
 /* contador */
-#conta{display:none}
-body.gray #form{display:none}
-body.gray #conta{display:block}
-#conta h2{font-size:26px;line-height:1.1;font-weight:700;color:#3A3D41}
-.big{font-size:clamp(76px,24vw,104px);line-height:1;font-weight:800;color:#2A2D31;margin:10px 0 4px;font-variant-numeric:tabular-nums}
-.sub{font-size:18px;font-weight:500;color:#3A3D41}
-.formula{color:var(--mute);font-size:14px;margin-top:6px}
-.cards{display:grid;gap:12px;margin-top:26px}
+.painel{text-align:center;margin-top:14px}
+.big{font-size:clamp(72px,22vw,100px);line-height:1;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;transition:color 1s}
+body.gray .big{color:#2A2D31}
+.delta{font:700 20px 'Bricolage Grotesque',sans-serif;min-height:28px;margin-top:4px;color:var(--green)}
+body.gray .delta{color:#C0392B}
+/* o interruptor */
+.tg{display:flex;flex-direction:column;align-items:center;gap:8px;margin:10px auto 0;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;font:inherit;color:inherit}
+.tg b{font:800 26px 'Bricolage Grotesque',sans-serif;letter-spacing:-.01em}
+.trilho{position:relative;display:block;width:228px;height:124px;border-radius:62px;background:#fff;border:3px solid var(--ink);transition:background-color .45s}
+.bola{position:absolute;top:7px;left:7px;width:104px;height:104px;border-radius:50%;background:#FFC93C;box-shadow:0 4px 0 rgba(0,0,0,.18);transition:transform .45s cubic-bezier(.5,1.6,.4,1),background-color .45s}
+.tg[aria-checked=true] .trilho{background:#3A3D41}
+.tg[aria-checked=true] .bola{transform:translateX(104px);background:#9AA0A6}
+.tg:active .bola{width:116px}
+.tg[aria-checked=true]:active .bola{transform:translateX(92px)}
+.est{font:700 13px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+/* resultado */
+#res{display:none}
+body.gray.temconta #res{display:block}
+.formula{color:var(--mute);font-size:14px;text-align:center;margin-top:16px}
+.cards{display:grid;gap:12px;margin-top:20px}
 .card{background:#fff;border-radius:20px;padding:18px 20px 18px 24px;border-left:8px solid var(--c);opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s}
 .card.on{opacity:1;transform:none}
 .card .num{font-size:40px;font-weight:800;color:var(--c);line-height:1.05}
 .card p{color:#3A3D41;font-weight:500;font-size:15px;margin-top:4px}
 .cta{display:block;width:100%;height:60px;border:0;border-radius:30px;background:var(--ink);color:#fff;font:700 17px 'Bricolage Grotesque',sans-serif;margin-top:24px;cursor:pointer}
-.link{display:block;margin:14px auto 0;background:none;border:0;color:var(--ink2);font:500 14px 'DM Sans',sans-serif;text-decoration:underline;cursor:pointer}
 .nota{font-size:12.5px;color:var(--mute);margin-top:22px;line-height:1.5}
 .nota a{color:inherit}
 footer{font-size:12px;color:var(--mute);padding:0 24px 32px;text-align:center}
 #prev{display:none;margin-top:18px;width:100%;border-radius:14px}
+
+/* odômetro */
+.odo{display:inline-flex;justify-content:center;height:1em;overflow:hidden;line-height:1}
+.odo .dig{display:inline-block;height:1em;overflow:hidden}
+.odo .fita{display:flex;flex-direction:column;transition:transform 1.1s cubic-bezier(.34,1.45,.5,1)}
+.odo .fita span{height:1em;display:block}
+.odo .sep{display:inline-block}
+/* barras */
+.barras{margin-top:18px;display:grid;gap:10px;text-align:left}
+.barra{display:grid;grid-template-columns:70px 1fr 54px;align-items:center;gap:10px;font:700 13px 'DM Sans',sans-serif;color:var(--ink2)}
+.barra .tr{display:block;height:18px;border-radius:9px;background:rgba(27,27,58,.08);overflow:hidden}
+.barra .ch{display:block;height:100%;width:0;border-radius:9px;transition:width 1.2s cubic-bezier(.34,1.5,.5,1),background-color .8s}
+.barra .v{text-align:right;font-variant-numeric:tabular-nums}
+/* semana */
+.semana{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:16px}
+.dia{aspect-ratio:1;border-radius:12px;display:grid;place-items:center;font:800 12px 'Bricolage Grotesque',sans-serif;background:#fff;color:var(--ink2);border:1.5px solid rgba(27,27,58,.12);transition:background-color .5s,color .5s,transform .6s cubic-bezier(.34,1.6,.5,1)}
+.dia.folga{background:#FFC93C;color:var(--ink);border-color:transparent}
+.dia.perdeu{background:#5F656B;color:#fff;transform:rotate(-8deg) scale(.92)}
+.semtxt{font-size:12.5px;color:var(--mute);margin-top:6px;text-align:center;min-height:1.2em}
+/* partículas e parallax */
+#fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.scene .bg,.cloud{will-change:transform}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -88,32 +116,41 @@ footer{font-size:12px;color:var(--mute);padding:0 24px 32px;text-align:center}
 </svg>
 <svg class="cloud" viewBox="0 0 170 120"><g fill="#5F656B"><ellipse cx="35" cy="55" rx="35" ry="25"/><ellipse cx="80" cy="40" rx="40" ry="40"/><ellipse cx="125" cy="52" rx="30" ry="27"/><rect x="10" y="50" width="140" height="30" rx="15"/></g>
 <g fill="#4A90B8"><rect class="drop" x="25" y="88" width="3" height="16" rx="1.5"/><rect class="drop" x="45" y="92" width="3" height="16" rx="1.5"/><rect class="drop" x="65" y="86" width="3" height="16" rx="1.5"/><rect class="drop" x="85" y="94" width="3" height="16" rx="1.5"/><rect class="drop" x="105" y="88" width="3" height="16" rx="1.5"/><rect class="drop" x="125" y="92" width="3" height="16" rx="1.5"/><rect class="drop" x="145" y="86" width="3" height="16" rx="1.5"/></g></svg>
+<canvas id="fx"></canvas>
 </div>
 
-<section class="pad" id="form">
+<section class="pad">
  <h1>Quanto da sua vida a escala 6x1 leva?</h1>
- <p class="lead">Faça a conta. Ela roda só no seu celular: nada é enviado nem guardado.</p>
- <label for="nasc">Data de nascimento</label>
- <input type="date" id="nasc" min="1940-01-01" required>
- <span class="lbl" style="margin-top:18px">Sua escala</span>
- <div class="row" style="margin-top:0">
-  <button class="esc e52" id="b52" type="button">5x2<small>2 folgas</small></button>
-  <button class="esc e61" id="b61" type="button">6x1<small>1 folga</small></button>
+ <p class="lead">Coloque sua data de nascimento e ligue a 6x1. A conta roda só no seu celular: nada é enviado nem guardado.</p>
+ <div class="dados">
+  <div><label for="nasc">Data de nascimento</label><input type="date" id="nasc" min="1940-01-01"></div>
+  <div><label for="apos">Aposenta aos</label><input type="number" id="apos" value="65" min="50" max="80" inputmode="numeric"></div>
  </div>
- <div class="aposent"><label for="apos" style="margin:0;text-transform:none;letter-spacing:0;font-size:14px;font-weight:500">Aposentadoria aos</label><input type="number" id="apos" value="65" min="50" max="80" inputmode="numeric"> anos</div>
- <p class="hint">Regra geral: 65 anos para homens e 62 para mulheres (EC 103/2019). Ajuste se for o seu caso.</p>
- <p class="err" id="err" role="alert"></p>
-</section>
+ <p class="hint">Regra geral: 65 anos para homens e 62 para mulheres (EC 103/2019).</p>
+ <div class="painel" aria-live="polite">
+  <div class="lbl" id="rot">Coloque sua data para ver seus dias livres</div>
+  <div class="big num" id="n" aria-label="—">—</div>
 
-<section class="pad" id="conta" aria-live="polite">
- <h2>Com a 6x1, você tem menos dias livres:</h2>
- <div class="big num" id="n">0</div>
- <div class="sub" id="ate">dias livres a menos até os 65</div>
- <div class="formula" id="formula"></div>
- <div class="cards" id="cards"></div>
- <button class="cta" id="story" type="button">Gerar card para o story</button>
- <img id="prev" alt="Card para o story com a sua conta">
- <button class="link" id="refazer" type="button">Refazer a conta</button>
+  <div class="delta" id="delta"></div>
+ </div>
+ <button class="tg" id="tg" type="button" role="switch" aria-checked="false"><b>Escala 6x1</b><span class="trilho"><span class="bola"></span></span><span class="est" id="est">desligada</span></button>
+ <div class="painel">
+  <div class="barras" aria-hidden="true">
+   <div class="barra"><span>sem 6x1</span><span class="tr"><span class="ch" id="b1" style="background:#1FB57A"></span></span><span class="v" id="v1">104</span></div>
+   <div class="barra"><span>você</span><span class="tr"><span class="ch" id="b2" style="background:#FF6B4A"></span></span><span class="v" id="v2">104</span></div>
+  </div>
+  <div class="semana" id="semana" aria-hidden="true"></div>
+  <div class="semtxt" id="semtxt">dias livres por ano</div>
+ </div>
+ <p class="err" id="err" role="alert"></p>
+ <div id="res">
+  <div class="formula" id="formula"></div>
+  <div class="cards" id="cards"></div>
+  <button class="cta" id="story" type="button">Gerar card para o story</button>
+  <img id="prev" alt="Card para o story com a sua conta">
+ </div>
+</section>
+<section class="pad" style="padding-top:0">
  <p class="nota"><b>Como a conta é feita.</b> Na 6x1 você tem 1 folga por semana; na 5x2, 2. Isso dá 52 dias livres a menos por ano, vezes os anos que faltam até a aposentadoria. Supõe que você siga na 6x1 até lá. "Anos acordado(a)": cada dia conta 16 horas acordado.</p>
  <p class="nota"><b>Fontes.</b> <a href="https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm" target="_blank" rel="noopener">Constituição, art. 7º, XIII e XV</a> (até 44 horas semanais; repouso semanal remunerado, de preferência aos domingos) · <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="noopener">CLT, art. 67</a> (24 horas seguidas de descanso por semana) · <a href="https://www.planalto.gov.br/ccivil_03/constituicao/emendas/emc/emc103.htm" target="_blank" rel="noopener">EC 103/2019</a> (idade mínima de aposentadoria) · PEC 221/2019: reduz a jornada de 44 para 40 horas e garante 2 folgas por semana. Aprovada na Câmara e na CCJ do Senado; em discussão no plenário do Senado desde 06/10/2026 (<a href="https://www12.senado.leg.br/noticias/videos/2026/10/fim-da-escala-6x1-davi-explica-proximos-passos-da-pec-no-senado" target="_blank" rel="noopener">Agência Senado</a>).</p>
 </section>
@@ -135,20 +172,25 @@ function calcula(nasc, idadeApos, hoje=new Date()){
   return {anos, dias, fds:Math.round(dias/2), vida:dias/365.2425, idadeApos};
 }
 
-$('b61').onclick=()=>{
-  const v=$('nasc').value, ap=parseInt($('apos').value,10);
-  if(!v){$('err').textContent='Coloque sua data de nascimento primeiro.';$('nasc').focus();return}
+const B=document.body;
+function le(){
+  const v=$('nasc').value, ap=parseInt($('apos').value,10); R=null; $('err').textContent='';
+  if(!v) return;
   if(!(ap>=50&&ap<=80)){$('err').textContent='Idade de aposentadoria entre 50 e 80.';return}
-  const [y,m,d]=v.split('-').map(Number); R=calcula(new Date(y,m-1,d),ap);
-  if(R.erro){$('err').textContent=R.erro;return}
-  $('err').textContent=''; mostra();
-};
-$('b52').onclick=()=>{$('err').textContent='Na 5x2 você tem 104 dias livres por ano. Agora toque em 6x1 para comparar.'};
-
-function mostra(){
-  document.body.classList.add('gray'); scrollTo({top:0,behavior:reduz?'auto':'smooth'});
-  $('ate').textContent=`dias livres a menos até os ${R.idadeApos}`;
-  $('formula').textContent=`52 dias por ano × ${fmt(+R.anos.toFixed(1))} anos de trabalho`;
+  const [y,m,d]=v.split('-').map(Number); const r=calcula(new Date(y,m-1,d),ap);
+  if(r.erro){$('err').textContent=r.erro;return}
+  R=r;
+}
+function conta(alvo){odo($('n'),fmt(alvo))}
+function pinta(){
+  const on=$('tg').getAttribute('aria-checked')==='true';
+  B.classList.toggle('gray',on); B.classList.toggle('temconta',!!R); $('est').textContent=on?'ligada':'desligada';
+  semana(on); barras(on); clima(on);
+  if(!R){$('n').textContent='—';$('n').setAttribute('aria-label','—');$('n').dataset.len='';$('rot').textContent='Coloque sua data para ver seus dias livres';$('delta').textContent=on?'Ligou a 6x1. Agora coloque sua data.':'';return}
+  $('rot').textContent=`Seus dias livres até os ${R.idadeApos}`;
+  conta(on?R.dias:R.dias*2);
+  $('delta').textContent=on?`−${fmt(R.dias)} dias com a 6x1`:`${fmt(R.dias)} dias a mais sem a 6x1`;
+  $('formula').textContent=`52 dias por ano × ${fmt(+R.anos.toFixed(1))} anos de trabalho = ${fmt(R.dias)} dias livres a menos. Isso é:`;
   const itens=[
     [fmt(R.fds),'fins de semana de dois dias, como sábado e domingo','#FF6B4A'],
     [fmt(R.dias),'domingos: é como perder um domingo por semana, toda semana','#7A4CE0'],
@@ -157,13 +199,56 @@ function mostra(){
   ];
   $('cards').innerHTML=itens.map(([n,l,c])=>`<div class="card" style="--c:${c}"><div class="num">${n}</div><p>${l}</p></div>`).join('');
   $('prev').style.display='none';
-  const dur=reduz?0:2200, t0=performance.now()+700;
-  (function tick(t){const k=Math.min(Math.max((t-t0)/dur,0),1), e=1-Math.pow(1-k,3);
-    $('n').textContent=fmt(Math.round(R.dias*e));
-    if(k<1)requestAnimationFrame(tick); else [...$('cards').children].forEach((c,i)=>setTimeout(()=>c.classList.add('on'),i*180));
-  })(performance.now());
+  if(on)[...$('cards').children].forEach((c,i)=>setTimeout(()=>c.classList.add('on'),(reduz?0:900)+i*160));
 }
-$('refazer').onclick=()=>{document.body.classList.remove('gray');$('n').textContent='0';scrollTo(0,0)};
+$('tg').onclick=()=>{
+  const on=$('tg').getAttribute('aria-checked')!=='true'; $('tg').setAttribute('aria-checked',on);
+  navigator.vibrate?.(on?[25,40,25]:15); pinta();
+};
+$('nasc').onchange=$('apos').onchange=()=>{le();pinta()};
+
+
+// ---------- camada de motion ----------
+function odo(el,txt){ // odômetro: cada dígito é uma fita 0-9 que rola com mola
+  el.setAttribute('aria-label',txt);
+  if(el.dataset.len!=txt.length||!el.querySelector('.odo')){
+    el.dataset.len=txt.length;
+    el.innerHTML='<span class="odo">'+[...txt].map(c=>/\d/.test(c)?'<span class="dig"><span class="fita">'+'0123456789'.split('').map(d=>'<span>'+d+'</span>').join('')+'</span></span>':'<span class="sep">'+c+'</span>').join('')+'</span>';
+    el.offsetHeight;
+  }
+  const fitas=[...el.querySelectorAll('.fita')], ds=[...txt].filter(c=>/\d/.test(c));
+  fitas.forEach((f,i)=>{f.style.transitionDelay=(reduz?0:(fitas.length-1-i)*70)+'ms';f.style.transform=`translateY(${-ds[i]}em)`});
+}
+const DIAS=['seg','ter','qua','qui','sex','sáb','dom'];
+$('semana').innerHTML=DIAS.map((d,i)=>`<div class="dia${i>=5?' folga':''}">${d}</div>`).join('');
+function semana(on){
+  const ds=$('semana').children; ds[5].classList.toggle('folga',!on); ds[5].classList.toggle('perdeu',on);
+  $('semtxt').textContent=on?'6x1: o sábado vira trabalho · 52 dias livres por ano':'5x2: sábado e domingo livres · 104 dias livres por ano';
+}
+function barras(on){
+  $('b1').style.width='100%'; $('b2').style.width=on?'50%':'100%';
+  $('b2').style.backgroundColor=on?'#5F656B':'#FF6B4A'; $('v2').textContent=on?'52':'104';
+}
+// partículas: chuva quando liga, confete e sol quando desliga
+const fx=$('fx'), g=fx.getContext('2d'); let P=[], chuva=false, loop=0;
+function tamanho(){const r=fx.getBoundingClientRect(), k=Math.min(devicePixelRatio,2); fx.width=r.width*k; fx.height=r.height*k; g.setTransform(k,0,0,k,0,0)}
+addEventListener('resize',tamanho); tamanho();
+function quadro(){
+  const W=fx.clientWidth,H=fx.clientHeight; g.clearRect(0,0,W,H);
+  if(chuva) for(let i=0;i<3;i++) P.push({x:Math.random()*W,y:-10,vx:-.6,vy:9+Math.random()*4,c:'rgba(74,144,184,.75)',t:'gota',v:1});
+  P=P.filter(p=>p.y<H+20&&p.v>0);
+  for(const p of P){p.x+=p.vx;p.y+=p.vy;
+    if(p.t==='gota'){g.strokeStyle=p.c;g.lineWidth=2;g.beginPath();g.moveTo(p.x,p.y);g.lineTo(p.x+p.vx*2,p.y+10);g.stroke()}
+    else{p.vy+=.22;p.vx*=.99;p.r+=p.vr;p.v-=.008;g.save();g.globalAlpha=Math.max(p.v,0);g.translate(p.x,p.y);g.rotate(p.r);g.fillStyle=p.c;g.fillRect(-5,-3,10,6);g.restore()}}
+  loop=(P.length||chuva)?requestAnimationFrame(quadro):0;
+}
+function anima(){if(!loop&&!reduz)loop=requestAnimationFrame(quadro)}
+function confete(){const W=fx.clientWidth,H=fx.clientHeight,cs=['#FF6B4A','#7A4CE0','#FF9F1C','#1FB57A','#FFC93C','#1497C4'];
+  for(let i=0;i<90;i++){const a=Math.random()*Math.PI-Math.PI,v=6+Math.random()*9;P.push({x:W/2,y:H*.75,vx:Math.cos(a)*v,vy:Math.sin(a)*v,c:cs[i%6],t:'c',r:0,vr:(Math.random()-.5)*.4,v:1})}}
+function clima(on){chuva=on; if(!on&&R) confete(); anima()}
+// parallax: o céu anda mais devagar que a página
+if(!reduz) addEventListener('scroll',()=>requestAnimationFrame(()=>{const y=scrollY;document.querySelector('.scene .bg').style.transform=`translateY(${y*.35}px)`;document.querySelector('.cloud').style.marginTop=`${y*.2}px`}),{passive:true});
+semana(false); barras(false);
 
 // Card do story 1080×1920: metade cinza (6x1) × metade colorida (5x2)
 function cena(g,y0,cinza){
