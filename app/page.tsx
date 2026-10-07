@@ -16,7 +16,7 @@ export default function Home() {
         {/* Logo oficial do kit público, sem alteração. A frase ao lado é obrigatória (Lei 9.504, art. 57-H): não atribuir autoria à campanha. */}
         <div className="mb-4 flex items-center gap-3 text-left">
           {/* eslint-disable-next-line @next/next/no-img-element -- export estático, imagem já no tamanho */}
-          <img src="/quanto-a-6x1-tira/logo-oficial-lula-2026.png" alt="Logo oficial Lula 2026" width={96} height={54} className="h-auto w-24 shrink-0" />
+          <img src={`${process.env.BASE}/logo-oficial-lula-2026.png`} alt="Logo oficial Lula 2026" width={96} height={54} className="h-auto w-24 shrink-0" />
           <p className="font-semibold text-ink2">Feito por um eleitor voluntário. Não é material oficial da campanha.</p>
         </div>
         Calculadora feita por um eleitor voluntário, sem fins comerciais. Sem cookies, sem cadastro, sem coleta de dados.

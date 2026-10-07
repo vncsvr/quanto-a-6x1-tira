@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && rsync -a --delete --exclude og.png --exclude .nojekyll out/ docs/"
+    "build": "next build && rsync -a --delete --exclude og.png --exclude .nojekyll out/ docs/",
+    "build:vercel": "BASE_PATH= next build && cp docs/og.png out/"
   },
   "dependencies": {
     "cn": "^0.4.0",

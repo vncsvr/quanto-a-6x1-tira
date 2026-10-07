@@ -1,9 +1,11 @@
 import type { NextConfig } from "next";
 
-// Export estático para o GitHub Pages pessoal (main:/docs), servido em /quanto-a-6x1-tira/.
+// Export estático. Padrão: GitHub Pages (main:/docs) em /quanto-a-6x1-tira/; na Vercel, BASE_PATH= (raiz).
+const base = process.env.BASE_PATH ?? "/quanto-a-6x1-tira";
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: "/quanto-a-6x1-tira",
+  basePath: base,
+  env: { BASE: base },
   trailingSlash: true,
   images: { unoptimized: true },
   turbopack: {

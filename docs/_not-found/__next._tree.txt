@@ -1,4 +1,4 @@
 :HL["/quanto-a-6x1-tira/_next/static/chunks/3jwp6-cd_nklr.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"/_not-found","h":96,"c":"$Q2"}]]
-0:{"b":"l-f2OqBoBHdz6IIqqO0Bt","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"ModCM8Pc02owJmoRZRVWE","t":{"t":{"s":"","h":80,"c":"$Q1"}}}

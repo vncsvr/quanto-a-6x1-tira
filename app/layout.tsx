@@ -11,10 +11,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Quanto a 6x1 tira da sua vida?",
     description: "Faça a conta em 10 segundos. Nada é enviado nem guardado.",
-    images: ["https://vncsvr.github.io/quanto-a-6x1-tira/og.png"],
+    images: [(process.env.SITE_URL ?? "https://vncsvr.github.io/quanto-a-6x1-tira") + "/og.png"],
     type: "website",
   },
   twitter: { card: "summary_large_image" },
+  ...(process.env.NOINDEX ? { robots: { index: false, follow: false } } : {}), // endereço provisório fora do Google até o domínio
   icons: {
     icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23ffd400'/></svg>",
   },
