@@ -1,12 +1,10 @@
 # Smoke: conta certa, toggle liga/desliga, card do story, e ZERO requisição para fora do próprio site.
 # Uso: python3 tests/smoke.py <pasta-saida>   (grava também toggle.webm na pasta)
-import sys, http.server, threading, functools, os
+import sys, os
+from servidor import sobe
 from playwright.sync_api import sync_playwright
 out = sys.argv[1] if len(sys.argv) > 1 else '/tmp'
-class Q(http.server.SimpleHTTPRequestHandler):
-    def log_message(self, *a): pass
-srv = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Q, directory='docs'))
-threading.Thread(target=srv.serve_forever, daemon=True).start(); BASE = f'http://127.0.0.1:{srv.server_address[1]}'
+srv, URL = sobe(); BASE = URL.split('/quanto')[0]
 num = lambda pg: pg.evaluate("document.getElementById('n').getAttribute('aria-label')")
 with sync_playwright() as p:
     b = p.chromium.launch()
@@ -15,7 +13,7 @@ with sync_playwright() as p:
     pg = ctx.new_page(); externos = []; erros = []
     pg.on('request', lambda r: None if r.url.startswith((BASE, 'data:', 'blob:')) else externos.append(r.url))
     pg.on('pageerror', lambda e: erros.append(str(e)))
-    pg.goto(BASE + '/'); pg.wait_for_timeout(800); pg.screenshot(path=f'{out}/01-entrada.png')
+    pg.goto(URL); pg.wait_for_timeout(800); pg.screenshot(path=f'{out}/01-entrada.png')
     r = pg.evaluate("calcula(new Date(1996,9,7),65,new Date(2026,9,7))"); assert r['dias'] == 1820 and r['fds'] == 910, r
     assert 'erro' in pg.evaluate("calcula(new Date(1950,0,1),65)") and 'erro' in pg.evaluate("calcula(new Date(2020,0,1),65)")
     pg.click('#tg'); assert 'coloque sua data' in pg.inner_text('#delta'); pg.wait_for_timeout(600); pg.click('#tg')  # sem data: só a cor

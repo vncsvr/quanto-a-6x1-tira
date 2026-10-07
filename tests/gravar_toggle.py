@@ -1,16 +1,14 @@
 # Grava o vai e volta do toggle em 780x1688 (screencast do Chrome em 2x) -> MP4 30 fps.
-# Uso: python3 tests/gravar_toggle.py <saida.mp4>
-import sys, http.server, threading, functools, base64, os, subprocess, tempfile
+# Uso: python3 tests/gravar_toggle.py <saida.mp4> [reel]   (reel: liga, rola até os cartões, volta e desliga)
+import sys, base64, os, subprocess, tempfile
+from servidor import sobe
 from playwright.sync_api import sync_playwright
 saida = sys.argv[1]
-class Q(http.server.SimpleHTTPRequestHandler):
-    def log_message(self, *a): pass
-srv = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Q, directory='docs'))
-threading.Thread(target=srv.serve_forever, daemon=True).start()
+srv, URL = sobe()
 tmp = tempfile.mkdtemp(); quadros = []
 with sync_playwright() as p:
     b = p.chromium.launch(); pg = b.new_page(viewport={'width': 390, 'height': 844}, device_scale_factor=2)
-    pg.goto(f'http://127.0.0.1:{srv.server_address[1]}/'); pg.wait_for_timeout(600)
+    pg.goto(URL); pg.wait_for_timeout(600)
     pg.fill('#nasc', '1996-10-07'); pg.dispatch_event('#nasc', 'change'); pg.wait_for_timeout(1600)
     cdp = pg.context.new_cdp_session(pg)
     def chega(e):
@@ -19,8 +17,16 @@ with sync_playwright() as p:
     cdp.on('Page.screencastFrame', chega)
     cdp.send('Page.startScreencast', {'format': 'jpeg', 'quality': 90, 'maxWidth': 780, 'maxHeight': 1688})
     pg.wait_for_timeout(1200)
-    for _ in range(3):
-        pg.click('#tg'); pg.wait_for_timeout(3000); pg.click('#tg'); pg.wait_for_timeout(2600)
+    if len(sys.argv) > 2 and sys.argv[2] == 'reel':
+        pg.click('#tg'); pg.wait_for_timeout(2600)
+        alvo = pg.evaluate("document.getElementById('perde').getBoundingClientRect().top + scrollY - 60")
+        for k in range(1, 46): pg.evaluate(f"scrollTo(0, {alvo} * (1 - Math.pow(1 - {k}/45, 3)))"); pg.wait_for_timeout(33)
+        pg.wait_for_timeout(3200)
+        for k in range(1, 31): pg.evaluate(f"scrollTo(0, {alvo} * (1 - {k}/30))"); pg.wait_for_timeout(33)
+        pg.wait_for_timeout(500); pg.click('#tg'); pg.wait_for_timeout(2600); pg.click('#tg'); pg.wait_for_timeout(2400)
+    else:
+        for _ in range(3):
+            pg.click('#tg'); pg.wait_for_timeout(3000); pg.click('#tg'); pg.wait_for_timeout(2600)
     cdp.send('Page.stopScreencast'); b.close()
 srv.shutdown()
 # o screencast só manda quadro quando a tela muda: repete o último até o próximo carimbo (30 fps constantes)

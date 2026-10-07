@@ -1,10 +1,10 @@
 # Gera docs/og.png (1200x630) reaproveitando a cena do app.
-import http.server, threading, functools, base64
+import base64
+from servidor import sobe
 from playwright.sync_api import sync_playwright
-srv = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(http.server.SimpleHTTPRequestHandler, directory='docs'))
-threading.Thread(target=srv.serve_forever, daemon=True).start()
+srv, URL = sobe()
 with sync_playwright() as p:
-    pg = p.chromium.launch().new_page(); pg.goto(f'http://127.0.0.1:{srv.server_address[1]}/')
+    pg = p.chromium.launch().new_page(); pg.goto(URL); pg.wait_for_function('window.cena')
     data = pg.evaluate("""async()=>{await document.fonts.ready;const c=document.createElement('canvas');c.width=1200;c.height=630;const g=c.getContext('2d');
       g.save();g.translate(600,0);g.scale(600/1080,630/960);cena(g,0,false);g.restore();
       g.save();g.scale(600/1080,630/960);cena(g,0,true);g.restore();
