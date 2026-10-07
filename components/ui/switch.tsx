@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 const MOLA = { type: "spring", visualDuration: 0.45, bounce: 0.45 } as const;
 
 // Interruptor gigante: rótulo em cima, trilho 228×124, estado embaixo. A bola cresce enquanto o dedo aperta.
+// Em tela baixa o conjunto encolhe por zoom (mantém as contas em px da mola) para caber antes da dobra.
 function Switch({
   className,
   label,
@@ -26,7 +27,7 @@ function Switch({
       onPointerLeave={solta}
       onPointerCancel={solta}
       className={cn(
-        "mx-auto mt-2.5 flex cursor-pointer flex-col items-center gap-2 border-0 bg-transparent text-inherit [-webkit-tap-highlight-color:transparent]",
+        "mx-auto mt-2 flex cursor-pointer [zoom:.5] [@media(min-height:700px)]:[zoom:.62] [@media(min-height:820px)]:[zoom:.72] [@media(min-height:900px)]:[zoom:.85] flex-col items-center gap-2 border-0 bg-transparent text-inherit [-webkit-tap-highlight-color:transparent]",
         className
       )}
       {...props}

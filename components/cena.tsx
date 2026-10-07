@@ -64,11 +64,11 @@ export function Cena({ on, temConta, pulso }: { on: boolean; temConta: boolean; 
   }, [pulso]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="relative h-[min(24dvh,240px)] overflow-hidden" aria-hidden="true">
-      <m.svg style={{ y: yCeu }} className="block h-full w-full transition-[filter] duration-1600 will-change-transform gray:brightness-92 gray:contrast-90 gray:grayscale" viewBox="0 0 390 420" preserveAspectRatio="xMidYMax slice">
+    <div className="relative h-[clamp(52px,11dvh,200px)] overflow-hidden" aria-hidden="true">
+      <m.svg style={{ y: yCeu }} className="block h-full w-full transition-[filter] duration-1600 will-change-transform gray:brightness-92 gray:contrast-90 gray:grayscale" viewBox="0 170 390 190" preserveAspectRatio="xMidYMid slice">
         <defs><linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#0034d2" /><stop offset="1" stopColor="#ccd6f6" /></linearGradient></defs>
         <rect width="390" height="420" fill="url(#ceu)" />
-        <circle className="transition-opacity duration-1200 gray:opacity-0" cx="295" cy="115" r="55" fill="#ffd400" />
+        <circle className="transition-opacity duration-1200 gray:opacity-0" cx="318" cy="222" r="30" fill="#ffd400" />
         <rect y="260" width="390" height="68" fill="#0034d2" /><rect y="260" width="390" height="8" fill="#f3f2f3" />
         <rect y="319" width="390" height="101" fill="#ffd400" />
         <g>
@@ -78,7 +78,7 @@ export function Cena({ on, temConta, pulso }: { on: boolean; temConta: boolean; 
           <rect x="205" y="282" width="20" height="54" rx="10" fill="#f3f2f3" /><circle cx="215" cy="272" r="8.6" fill="#f3f2f3" />
         </g>
       </m.svg>
-      <m.div style={{ y: yNuvem }} className="absolute top-[6%] left-1/2 w-[170px] -translate-x-1/2 will-change-transform">
+      <m.div style={{ y: yNuvem }} className="absolute top-[4%] left-[62%] w-[clamp(70px,13dvh,170px)] -translate-x-1/2 will-change-transform">
         <m.svg
           viewBox="0 0 170 120"
           className="block w-full"

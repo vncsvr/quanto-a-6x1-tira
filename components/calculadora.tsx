@@ -87,30 +87,33 @@ export function Calculadora() {
       <MotionConfig reducedMotion="user">
         <Cena on={on} temConta={!!R} pulso={pulso} />
 
-        <section className="px-6 pt-[18px] pb-8">
-          <h1 className="flex flex-col items-start gap-2.5 text-[clamp(30px,9.2vw,42px)] leading-[.95] whitespace-nowrap transition-[filter] duration-1000 gray:grayscale">
+        <section className="px-5 pb-8">
+          {/* primeira tela: título, data, número e o toggle cabem em 100dvh (360×640 em diante); o resto é bônus abaixo da dobra */}
+          <div className="flex min-h-[calc(100dvh-clamp(52px,11dvh,200px))] flex-col justify-evenly gap-[1.2dvh] pt-[1.5dvh]">
+          <h1 className="flex flex-wrap items-start gap-x-2 gap-y-[1dvh] text-[clamp(22px,min(7.4vw,4.4dvh),40px)] leading-[.95] whitespace-nowrap transition-[filter] duration-1000 gray:grayscale">
             <Caixa cor="#fd0000" lado="#a20301" giro={-3} className="text-white">Quanto da sua vida</Caixa>{" "}
-            <Caixa cor="#ffd400" lado="#320d59" giro={2} className="ml-5 text-roxo-escuro">a escala 6x1</Caixa>{" "}
+            <Caixa cor="#ffd400" lado="#320d59" giro={2} className="text-roxo-escuro">a escala 6x1</Caixa>{" "}
             <Caixa cor="#0034d2" lado="#320d59" giro={-2} className="text-white">leva?</Caixa>
           </h1>
-          <p className="mt-5 mb-[18px] text-[15px] font-medium text-ink2">Coloque sua data de nascimento e ligue a 6x1. A conta roda só no seu celular: nada é enviado nem guardado.</p>
+          <div>
           <div className="grid grid-cols-[1fr_104px] gap-2.5">
             <div><label className="rotulo" htmlFor="nasc">Data de nascimento</label><Input ref={nascRef} type="date" id="nasc" min="1940-01-01" /></div>
             <div><label className="rotulo" htmlFor="apos">Aposenta aos</label><Input ref={aposRef} type="number" id="apos" defaultValue={65} min={50} max={80} inputMode="numeric" className="text-center" /></div>
           </div>
-          <p className="mt-1.5 text-[12.5px] text-mute">Regra geral: 65 anos para homens e 62 para mulheres (EC 103/2019).</p>
+          <p className="mt-1 text-[12px] leading-snug text-mute">Regra geral: 65 (homens), 62 (mulheres). A conta roda no seu celular: nada é enviado.</p>
+          </div>
 
-          <div className="mt-3.5 text-center" aria-live="polite">
+          <div className="text-center" aria-live="polite">
             <div className="rotulo" id="rot">{R ? `Seus dias livres até os ${R.idadeApos}` : "Coloque sua data para ver seus dias livres"}</div>
-            <div id="n" aria-label={big} className="condensada text-[clamp(88px,27vw,124px)] leading-none text-ink tabular-nums transition-colors duration-1000 gray:text-chumbo">
+            <div id="n" aria-label={big} className="condensada text-[clamp(52px,min(27vw,12dvh),124px)] leading-none text-ink tabular-nums transition-colors duration-1000 gray:text-chumbo">
               {R ? <Odo txt={big} /> : "—"}
             </div>
-            <div id="delta" className="mt-1 min-h-[28px] font-display text-[21px] leading-normal font-extrabold [font-stretch:75%] text-folga gray:text-alerta">
+            <div id="delta" className="min-h-[1.5em] font-display text-[clamp(16px,2.6dvh,21px)] leading-normal font-extrabold [font-stretch:75%] text-folga gray:text-alerta">
               {R ? (on ? `−${fmt(R.dias)} dias com a 6x1` : `${fmt(R.dias)} dias a mais sem a 6x1`) : on ? "Ligou a 6x1. Agora coloque sua data." : ""}
             </div>
             <m.div
               id="anos"
-              className="mt-1.5 condensada text-[clamp(30px,9.5vw,40px)] leading-[1.05] text-vermelho"
+              className="condensada text-[clamp(22px,min(7.6vw,4.4dvh),40px)] leading-[1.05] text-vermelho"
               initial={false}
               animate={on && R ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
               transition={{ opacity: { duration: 0.5, delay: 0.9 }, scale: { ...MOLA, delay: 0.9 } }}
@@ -120,6 +123,7 @@ export function Calculadora() {
           </div>
 
           <Switch id="tg" checked={on} onCheckedChange={liga} label="Escala 6x1" estado={on ? "ligada" : "desligada"} />
+          </div>
 
           <div className="mt-3.5 text-center">
             <div className="mt-[18px] grid gap-2.5 text-left" aria-hidden="true">
