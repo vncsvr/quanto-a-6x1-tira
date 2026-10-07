@@ -15,7 +15,7 @@ export function Odo({ txt, atraso = 0 }: { txt: string; atraso?: number }) {
         if (!/\d/.test(c)) return <span key={k} className="inline-block">{c}</span>;
         i++;
         return (
-          <span key={k} className="inline-block h-[1em] w-[.62em] overflow-hidden text-center">
+          <span key={k} className="inline-block h-[1em] w-[.5em] overflow-hidden text-center">
             <m.span
               className="flex flex-col"
               initial={{ y: "0%" }}

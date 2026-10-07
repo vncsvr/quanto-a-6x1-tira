@@ -11,7 +11,7 @@ function Card({ className, ...props }: HTMLMotionProps<"div">) {
     <m.div
       data-slot="card"
       className={cn(
-        "rounded-[18px] border-l-[6px] border-l-(--c) bg-white py-3.5 pr-3.5 pl-4 transition-colors duration-600 gray:border-l-[#5F656B] gray:bg-[#DADCDF]",
+        "rounded-[4px] border-l-[6px] border-l-(--c) bg-white py-3.5 pr-3.5 pl-4 shadow-[4px_4px_0_#320d59] transition-[background-color,border-color,box-shadow] duration-600 gray:border-l-[#5F656B] gray:bg-[#DADCDF] gray:shadow-[4px_4px_0_#9AA0A6]",
         className
       )}
       {...props}

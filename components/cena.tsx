@@ -5,7 +5,7 @@ import * as m from "motion/react-m";
 import { useReducedMotion, useScroll, useTransform } from "motion/react";
 
 type P = { x: number; y: number; vx: number; vy: number; c: string; t: "gota" | "c"; r: number; vr: number; v: number };
-const CORES = ["#FF6B4A", "#7A4CE0", "#FF9F1C", "#1FB57A", "#FFC93C", "#1497C4"];
+const CORES = ["#fd0000", "#a237fb", "#00b923", "#0034d2", "#ffd400", "#a20301"];
 
 // Céu, mar, areia e a família; com a 6x1 tudo fica cinza, entra a nuvem e chove. Ao desligar, confete.
 // `pulso` muda a cada interação (toggle ou data) — é quando o clima é refeito.
@@ -66,16 +66,16 @@ export function Cena({ on, temConta, pulso }: { on: boolean; temConta: boolean; 
   return (
     <div className="relative h-[min(24dvh,240px)] overflow-hidden" aria-hidden="true">
       <m.svg style={{ y: yCeu }} className="block h-full w-full transition-[filter] duration-1600 will-change-transform gray:brightness-92 gray:contrast-90 gray:grayscale" viewBox="0 0 390 420" preserveAspectRatio="xMidYMax slice">
-        <defs><linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#55B8F0" /><stop offset="1" stopColor="#C8ECFF" /></linearGradient></defs>
+        <defs><linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#0034d2" /><stop offset="1" stopColor="#ccd6f6" /></linearGradient></defs>
         <rect width="390" height="420" fill="url(#ceu)" />
-        <circle className="transition-opacity duration-1200 gray:opacity-0" cx="295" cy="115" r="55" fill="#FFC93C" />
-        <rect y="260" width="390" height="68" fill="#1497C4" /><rect y="260" width="390" height="10" fill="#3DBBE0" />
-        <rect y="319" width="390" height="101" fill="#F6D9A6" />
+        <circle className="transition-opacity duration-1200 gray:opacity-0" cx="295" cy="115" r="55" fill="#ffd400" />
+        <rect y="260" width="390" height="68" fill="#0034d2" /><rect y="260" width="390" height="8" fill="#f3f2f3" />
+        <rect y="319" width="390" height="101" fill="#ffd400" />
         <g>
-          <rect x="60" y="246" width="34" height="90" rx="17" fill="#FF6B4A" /><circle cx="77" cy="229" r="14.3" fill="#FF6B4A" />
-          <rect x="110" y="235" width="38" height="101" rx="19" fill="#7A4CE0" /><circle cx="129" cy="216" r="16" fill="#7A4CE0" />
-          <rect x="165" y="273" width="24" height="63" rx="12" fill="#FF9F1C" /><circle cx="177" cy="261" r="10" fill="#FF9F1C" />
-          <rect x="205" y="282" width="20" height="54" rx="10" fill="#1FB57A" /><circle cx="215" cy="272" r="8.6" fill="#1FB57A" />
+          <rect x="60" y="246" width="34" height="90" rx="17" fill="#fd0000" /><circle cx="77" cy="229" r="14.3" fill="#fd0000" />
+          <rect x="110" y="235" width="38" height="101" rx="19" fill="#a237fb" /><circle cx="129" cy="216" r="16" fill="#a237fb" />
+          <rect x="165" y="273" width="24" height="63" rx="12" fill="#00b923" /><circle cx="177" cy="261" r="10" fill="#00b923" />
+          <rect x="205" y="282" width="20" height="54" rx="10" fill="#f3f2f3" /><circle cx="215" cy="272" r="8.6" fill="#f3f2f3" />
         </g>
       </m.svg>
       <m.div style={{ y: yNuvem }} className="absolute top-[6%] left-1/2 w-[170px] -translate-x-1/2 will-change-transform">

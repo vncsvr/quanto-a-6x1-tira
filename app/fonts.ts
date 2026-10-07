@@ -1,17 +1,20 @@
 import localFont from "next/font/local";
 
-// Fontes servidas pelo próprio site (nada de CDN). O nome da família fica fixo para o canvas do story.
-export const bricolage = localFont({
-  src: "./fonts/bricolage.woff2",
-  weight: "200 800",
-  variable: "--font-bricolage",
-  declarations: [{ prop: "font-family", value: "Bricolage Grotesque" }],
+// Substitutas livres das fontes oficiais (Transducer e Gotham são pagas), servidas pelo próprio site.
+// O nome da família fica fixo para o canvas do story.
+export const archivo = localFont({
+  src: "./fonts/archivo.woff2",
+  weight: "100 900",
+  variable: "--font-archivo",
+  declarations: [
+    { prop: "font-family", value: "Archivo" },
+    { prop: "font-stretch", value: "62% 125%" },
+  ],
 });
 
-export const dmSans = localFont({
-  src: "./fonts/dmsans.woff2",
-  weight: "100 1000",
-  variable: "--font-dm-sans",
-  preload: false,
-  declarations: [{ prop: "font-family", value: "DM Sans" }],
+export const montserrat = localFont({
+  src: "./fonts/montserrat.woff2",
+  weight: "100 900",
+  variable: "--font-montserrat",
+  declarations: [{ prop: "font-family", value: "Montserrat" }],
 });

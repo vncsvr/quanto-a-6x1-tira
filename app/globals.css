@@ -4,16 +4,28 @@
 @custom-variant gray (&:where(body.gray, body.gray *));
 
 @theme {
-  --color-ink: #1b1b3a;
-  --color-ink2: #4a4a63;
-  --color-mute: #6a6e73;
-  --color-paper: #fff8ec;
-  --color-sea: #1497c4;
-  --color-alerta: #c0392b;
+  /* paleta oficial do kit (guia de identidade 2026) */
+  --color-vermelho: #fd0000;
+  --color-vermelho-escuro: #a20301;
+  --color-amarelo: #ffd400;
+  --color-verde: #00b923;
+  --color-verde-escuro: #006820;
+  --color-azul: #0034d2;
+  --color-cinza-claro: #f3f2f3;
+  --color-creme: #f6efe7;
+  --color-roxo-escuro: #320d59;
+  --color-roxo: #a237fb;
+  /* papéis */
+  --color-ink: #320d59;
+  --color-ink2: color-mix(in srgb, #320d59 82%, #f6efe7);
+  --color-mute: color-mix(in srgb, #320d59 68%, #f6efe7);
+  --color-paper: #f6efe7;
+  --color-sea: #0034d2;
+  --color-alerta: #a20301;
   --color-chumbo: #2a2d31;
-  --color-folga: #1fb57a;
-  --font-sans: "DM Sans", system-ui, sans-serif;
-  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --color-folga: #006820;
+  --font-sans: "Montserrat", system-ui, sans-serif;
+  --font-display: "Archivo", system-ui, sans-serif;
 }
 
 @layer base {
@@ -30,16 +42,20 @@
   body.gray {
     background: #ecedef;
   }
-  h1,
-  h2 {
-    font-family: var(--font-display);
-    letter-spacing: -0.02em;
-  }
   input:focus-visible,
   button:focus-visible {
     outline: 3px solid var(--color-sea);
     outline-offset: 3px;
   }
+}
+
+/* "Transducer Condensed Black" do guia: caixa alta condensada pesada, entreletras apertado */
+@utility condensada {
+  font-family: var(--font-display);
+  font-stretch: 68%;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
 }
 
 @utility rotulo {

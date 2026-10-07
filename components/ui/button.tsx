@@ -7,7 +7,7 @@ function Button({ className, type = "button", ...props }: React.ComponentProps<"
       type={type}
       data-slot="button"
       className={cn(
-        "block h-[60px] w-full cursor-pointer rounded-[30px] border-0 bg-ink font-display text-[17px] font-bold text-white",
+        "condensada block h-[64px] w-full -rotate-1 cursor-pointer rounded-[4px] border-0 bg-vermelho text-[24px] text-white shadow-[1px_1px_0_#a20301,2px_2px_0_#a20301,3px_3px_0_#a20301,4px_4px_0_#a20301,5px_5px_0_#a20301,6px_6px_0_#a20301] active:translate-x-1 active:translate-y-1 active:shadow-[1px_1px_0_#a20301,2px_2px_0_#a20301]",
         className
       )}
       {...props}

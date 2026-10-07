@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { bricolage, dmSans } from "./fonts";
+import { archivo, montserrat } from "./fonts";
 import "./globals.css";
 
 const descricao =
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image" },
   icons: {
-    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23FFC93C'/></svg>",
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23ffd400'/></svg>",
   },
 };
 
@@ -24,12 +24,12 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#55B8F0",
+  themeColor: "#0034d2",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${bricolage.variable} ${dmSans.variable}`}>
+    <html lang="pt-BR" className={`${archivo.variable} ${montserrat.variable}`}>
       <body>{children}</body>
     </html>
   );

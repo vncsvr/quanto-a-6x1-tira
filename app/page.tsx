@@ -12,7 +12,15 @@ export default function Home() {
           <p><b>Fontes.</b> <a className={link} href="https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm" target="_blank" rel="noopener">Constituição, art. 7º, XIII e XV</a> (até 44 horas semanais; repouso semanal remunerado, de preferência aos domingos) · <a className={link} href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="noopener">CLT, art. 67</a> (24 horas seguidas de descanso por semana) · <a className={link} href="https://www.planalto.gov.br/ccivil_03/constituicao/emendas/emc/emc103.htm" target="_blank" rel="noopener">EC 103/2019</a> (idade mínima de aposentadoria) · PEC 221/2019: reduz a jornada de 44 para 40 horas e garante 2 folgas por semana. Aprovada na Câmara e na CCJ do Senado; em discussão no plenário do Senado desde 06/10/2026 (<a className={link} href="https://www12.senado.leg.br/noticias/videos/2026/10/fim-da-escala-6x1-davi-explica-proximos-passos-da-pec-no-senado" target="_blank" rel="noopener">Agência Senado</a>).</p>
         </section>
       </main>
-      <footer className="px-6 pb-8 text-center text-xs text-mute">Calculadora feita por um eleitor voluntário, sem fins comerciais. Sem cookies, sem cadastro, sem coleta de dados.</footer>
+      <footer className="mx-auto max-w-[440px] px-6 pb-8 text-center text-xs text-mute">
+        {/* Logo oficial do kit público, sem alteração. A frase ao lado é obrigatória (Lei 9.504, art. 57-H): não atribuir autoria à campanha. */}
+        <div className="mb-4 flex items-center gap-3 text-left">
+          {/* eslint-disable-next-line @next/next/no-img-element -- export estático, imagem já no tamanho */}
+          <img src="/quanto-a-6x1-tira/logo-oficial-lula-2026.png" alt="Logo oficial Lula 2026" width={96} height={54} className="h-auto w-24 shrink-0" />
+          <p className="font-semibold text-ink2">Feito por um eleitor voluntário. Não é material oficial da campanha.</p>
+        </div>
+        Calculadora feita por um eleitor voluntário, sem fins comerciais. Sem cookies, sem cadastro, sem coleta de dados.
+      </footer>
     </>
   );
 }

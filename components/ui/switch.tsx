@@ -31,9 +31,9 @@ function Switch({
       )}
       {...props}
     >
-      <b className="font-display text-[26px] leading-normal font-extrabold tracking-[-.01em]">{label}</b>
+      <b className="condensada inline-block -rotate-2 bg-amarelo px-3 pt-1 text-[30px] leading-normal text-roxo-escuro shadow-[1px_1px_0_#320d59,2px_2px_0_#320d59,3px_3px_0_#320d59,4px_4px_0_#320d59,5px_5px_0_#320d59] transition-[filter] duration-1000 gray:grayscale">{label}</b>
       <m.span
-        className="relative block h-[124px] w-[228px] rounded-[62px] border-[3px] border-ink"
+        className="relative block h-[124px] w-[228px] rounded-[62px] border-[3px] border-roxo-escuro"
         initial={false}
         animate={{ backgroundColor: checked ? "#3A3D41" : "#FFFFFF" }}
         transition={{ duration: 0.45 }}
@@ -45,7 +45,7 @@ function Switch({
             animate={{
               x: checked ? (aperto ? 92 : 104) : 0,
               width: aperto ? 116 : 104,
-              backgroundColor: checked ? "#9AA0A6" : "#FFC93C",
+              backgroundColor: checked ? "#9AA0A6" : "#ffd400",
             }}
             transition={{ x: MOLA, width: MOLA, backgroundColor: { duration: 0.45 } }}
           />
