@@ -1,4 +1,4 @@
-:HL["/quanto-a-6x1-tira/_next/static/chunks/3jwp6-cd_nklr.css","style"]
+:HL["/quanto-a-6x1-tira/_next/static/chunks/0ej4_whu3t1du.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"/_not-found","h":96,"c":"$Q2"}]]
-0:{"b":"cnitO_wn9KPwpJYhRggXV","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"xfX5iVdcOwg5auBKTOFm4","t":{"t":{"s":"","h":80,"c":"$Q1"}}}

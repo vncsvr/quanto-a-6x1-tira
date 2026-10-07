@@ -1,6 +1,6 @@
-:HL["/quanto-a-6x1-tira/_next/static/chunks/3jwp6-cd_nklr.css","style"]
+:HL["/quanto-a-6x1-tira/_next/static/chunks/0ej4_whu3t1du.css","style"]
 :HL["/quanto-a-6x1-tira/_next/static/media/archivo-s.p.1h4hl0m83hjjz.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/quanto-a-6x1-tira/_next/static/media/montserrat-s.p.0s216eisv2o7-.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/quanto-a-6x1-tira/logo-oficial-lula-2026.png","image"]
 1:[["children",{"s":"__PAGE__","h":160}]]
-0:{"b":"cnitO_wn9KPwpJYhRggXV","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"xfX5iVdcOwg5auBKTOFm4","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
