@@ -41,7 +41,9 @@ export async function story(R: Conta): Promise<Blob> {
   caixa(g, 70, "NA 6x1", "#6A6E73", `−${fmt(R.dias)} dias`, "livres na minha vida", "#2A2D31");
   caixa(g, 1030, "NA 5x2", "#E0502F", `+${fmt(R.dias)} dias`, `de volta: ${fmt(R.fds)} fins de semana`, "#1B1B3A");
   g.fillStyle = "#1B1B3A"; g.beginPath(); g.roundRect(120, 1690, 840, 116, 58); g.fill();
-  g.fillStyle = "#fff"; g.font = "700 38px 'DM Sans'"; g.textAlign = "center"; g.fillText("Faça a sua conta: " + location.host, 540, 1762);
+  const link = "Faça a sua conta: " + (location.host + location.pathname).replace(/\/$/, "");
+  let tam = 38; g.font = `700 ${tam}px 'DM Sans'`; while (g.measureText(link).width > 780 && tam > 22) g.font = `700 ${--tam}px 'DM Sans'`; // link longo encolhe até caber na pílula
+  g.fillStyle = "#fff"; g.textAlign = "center"; g.fillText(link, 540, 1762);
   g.fillStyle = "#1B1B3A"; g.font = "400 26px 'DM Sans'"; g.fillText("Conta feita no meu celular. Nenhum dado enviado.", 540, 1862);
   return new Promise((r) => cv.toBlob((b) => r(b!), "image/png"));
 }

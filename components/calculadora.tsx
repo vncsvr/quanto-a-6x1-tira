@@ -56,7 +56,7 @@ export function Calculadora() {
     const url = URL.createObjectURL(blob);
     setPrev(url);
     if (navigator.canShare?.({ files: [file] })) {
-      try { await navigator.share({ files: [file], text: "Quanto a 6x1 tira da sua vida? Faça a sua conta: " + location.origin }); return; }
+      try { await navigator.share({ files: [file], text: "Quanto a 6x1 tira da sua vida? Faça a sua conta: " + location.origin + location.pathname }); return; }
       catch (e) { if ((e as Error).name === "AbortError") return; }
     }
     const a = document.createElement("a"); a.href = url; a.download = file.name; a.click();
