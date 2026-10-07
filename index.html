@@ -63,13 +63,28 @@ body.gray .delta{color:#C0392B}
 .est{font:700 13px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
 /* resultado */
 #res{display:none}
-body.gray.temconta #res{display:block}
+body.temconta #res{display:block}
 .formula{color:var(--mute);font-size:14px;text-align:center;margin-top:16px}
-.cards{display:grid;gap:12px;margin-top:20px}
-.card{background:#fff;border-radius:20px;padding:18px 20px 18px 24px;border-left:8px solid var(--c);opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s}
+.anos{font:800 clamp(26px,8vw,34px)/1.1 'Bricolage Grotesque',sans-serif;color:#C0392B;margin-top:6px;opacity:0;transform:scale(.8);transition:opacity .5s .9s,transform .7s cubic-bezier(.34,1.6,.5,1) .9s}
+body.gray.temconta .anos{opacity:1;transform:none}
+.vida{margin-top:18px;text-align:left}
+.vida .tr{position:relative;display:block;height:26px;border-radius:13px;background:linear-gradient(90deg,#FFC93C,#FF6B4A 60%,#7A4CE0);overflow:hidden}
+.vida .perdido{position:absolute;right:0;top:0;bottom:0;width:0;background:repeating-linear-gradient(-45deg,#5F656B 0 8px,#727880 8px 16px);transition:width 1.4s cubic-bezier(.34,1.3,.5,1) .3s}
+.vida .hoje{position:absolute;top:-4px;bottom:-4px;width:3px;background:var(--ink);border-radius:2px}
+.vida .eixo{display:flex;justify-content:space-between;font:700 12px 'DM Sans',sans-serif;color:var(--ink2);margin-top:6px}
+.perde{font:800 22px/1.15 'Bricolage Grotesque',sans-serif;text-align:center;margin-top:22px;transition:color .6s}
+body.gray .perde{color:#2A2D31}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.card{background:#fff;border-radius:18px;padding:14px 14px 14px 16px;border-left:6px solid var(--c);opacity:0;transform:translateY(14px) scale(.96);transition:opacity .5s,transform .6s cubic-bezier(.34,1.5,.5,1),background-color .6s,border-color .6s}
 .card.on{opacity:1;transform:none}
-.card .num{font-size:40px;font-weight:800;color:var(--c);line-height:1.05}
-.card p{color:#3A3D41;font-weight:500;font-size:15px;margin-top:4px}
+.card .ico{font-size:22px;line-height:1}
+.card .num{display:flex;align-items:baseline;gap:2px;font-size:30px;font-weight:800;color:var(--c);line-height:1.05;margin-top:6px;transition:color .6s}
+.card .num .odo{height:1em}
+.card p{color:#3A3D41;font-weight:500;font-size:13.5px;line-height:1.3;margin-top:4px}
+.card.larga{grid-column:1/-1}
+body.gray .card{background:#DADCDF;border-left-color:#5F656B}
+body.gray .card .num{color:#2A2D31}
+body.gray .card .ico{filter:grayscale(1)}
 .cta{display:block;width:100%;height:60px;border:0;border-radius:30px;background:var(--ink);color:#fff;font:700 17px 'Bricolage Grotesque',sans-serif;margin-top:24px;cursor:pointer}
 .nota{font-size:12.5px;color:var(--mute);margin-top:22px;line-height:1.5}
 .nota a{color:inherit}
@@ -77,7 +92,8 @@ footer{font-size:12px;color:var(--mute);padding:0 24px 32px;text-align:center}
 #prev{display:none;margin-top:18px;width:100%;border-radius:14px}
 
 /* odômetro */
-.odo{display:inline-flex;justify-content:center;height:1em;overflow:hidden;line-height:1}
+.odo{display:inline-flex;justify-content:center;height:1em;overflow:hidden;line-height:1;font-variant-numeric:tabular-nums;font-feature-settings:'tnum'}
+.odo .dig{width:.62em;text-align:center}
 .odo .dig{display:inline-block;height:1em;overflow:hidden}
 .odo .fita{display:flex;flex-direction:column;transition:transform 1.1s cubic-bezier(.34,1.45,.5,1)}
 .odo .fita span{height:1em;display:block}
@@ -132,6 +148,7 @@ footer{font-size:12px;color:var(--mute);padding:0 24px 32px;text-align:center}
   <div class="big num" id="n" aria-label="—">—</div>
 
   <div class="delta" id="delta"></div>
+  <div class="anos" id="anos"></div>
  </div>
  <button class="tg" id="tg" type="button" role="switch" aria-checked="false"><b>Escala 6x1</b><span class="trilho"><span class="bola"></span></span><span class="est" id="est">desligada</span></button>
  <div class="painel">
@@ -139,19 +156,21 @@ footer{font-size:12px;color:var(--mute);padding:0 24px 32px;text-align:center}
    <div class="barra"><span>sem 6x1</span><span class="tr"><span class="ch" id="b1" style="background:#1FB57A"></span></span><span class="v" id="v1">104</span></div>
    <div class="barra"><span>você</span><span class="tr"><span class="ch" id="b2" style="background:#FF6B4A"></span></span><span class="v" id="v2">104</span></div>
   </div>
+  <div class="vida" aria-hidden="true"><div class="lbl" id="vidarot">Sua vida até a aposentadoria</div><span class="tr"><span class="perdido" id="perdido"></span><span class="hoje" id="hoje"></span></span><div class="eixo"><span>nasceu</span><span id="hojetxt">hoje</span><span id="apostxt">65 anos</span></div></div>
   <div class="semana" id="semana" aria-hidden="true"></div>
   <div class="semtxt" id="semtxt">dias livres por ano</div>
  </div>
  <p class="err" id="err" role="alert"></p>
  <div id="res">
-  <div class="formula" id="formula"></div>
+  <div class="perde" id="perde"></div>
   <div class="cards" id="cards"></div>
+  <div class="formula" id="formula"></div>
   <button class="cta" id="story" type="button">Gerar card para o story</button>
   <img id="prev" alt="Card para o story com a sua conta">
  </div>
 </section>
 <section class="pad" style="padding-top:0">
- <p class="nota"><b>Como a conta é feita.</b> Na 6x1 você tem 1 folga por semana; na 5x2, 2. Isso dá 52 dias livres a menos por ano, vezes os anos que faltam até a aposentadoria. Supõe que você siga na 6x1 até lá. "Anos acordado(a)": cada dia conta 16 horas acordado.</p>
+ <p class="nota"><b>Como calculamos.</b> Na 6x1 você tem 1 folga por semana; na 5x2, 2. São 52 dias livres a menos por ano, vezes os anos que faltam até a aposentadoria, supondo que você siga na 6x1 até lá. Todo cartão sai desse mesmo número, com uma regra simples: praia ou descanso e almoço de família = 1 por folga perdida; amigos = 1 a cada 2 folgas; pelada = 1 a cada 4; estudo = 4 horas por folga; horas acordado = 16 por folga; fins de semana = folgas ÷ 2; semanas = folgas ÷ 7; verões = folgas ÷ 89 (o verão vai de 21/12 a 20/03); anos e infância = folgas ÷ 365. Aniversários: supomos 10 festas por ano de pessoas próximas; na 6x1, cada uma tem 1 chance em 7 a mais de cair no seu dia de trabalho. São conversões ilustrativas, não pesquisa.</p>
  <p class="nota"><b>Fontes.</b> <a href="https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm" target="_blank" rel="noopener">Constituição, art. 7º, XIII e XV</a> (até 44 horas semanais; repouso semanal remunerado, de preferência aos domingos) · <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="noopener">CLT, art. 67</a> (24 horas seguidas de descanso por semana) · <a href="https://www.planalto.gov.br/ccivil_03/constituicao/emendas/emc/emc103.htm" target="_blank" rel="noopener">EC 103/2019</a> (idade mínima de aposentadoria) · PEC 221/2019: reduz a jornada de 44 para 40 horas e garante 2 folgas por semana. Aprovada na Câmara e na CCJ do Senado; em discussão no plenário do Senado desde 06/10/2026 (<a href="https://www12.senado.leg.br/noticias/videos/2026/10/fim-da-escala-6x1-davi-explica-proximos-passos-da-pec-no-senado" target="_blank" rel="noopener">Agência Senado</a>).</p>
 </section>
 </main>
@@ -190,16 +209,32 @@ function pinta(){
   $('rot').textContent=`Seus dias livres até os ${R.idadeApos}`;
   conta(on?R.dias:R.dias*2);
   $('delta').textContent=on?`−${fmt(R.dias)} dias com a 6x1`:`${fmt(R.dias)} dias a mais sem a 6x1`;
-  $('formula').textContent=`52 dias por ano × ${fmt(+R.anos.toFixed(1))} anos de trabalho = ${fmt(R.dias)} dias livres a menos. Isso é:`;
-  const itens=[
-    [fmt(R.fds),'fins de semana de dois dias, como sábado e domingo','#FF6B4A'],
-    [fmt(R.dias),'domingos: é como perder um domingo por semana, toda semana','#7A4CE0'],
-    [fmt(R.dias),'dias de praia, de família, de nada pra fazer','#1497C4'],
-    [R.vida>=1?`${fmt(+R.vida.toFixed(1))} anos`:`${fmt(Math.round(R.vida*12))} meses`,'da sua vida acordado(a), sem nenhum dia livre','#1FB57A'],
+  $('formula').textContent=`Conta: 52 dias por ano × ${fmt(+R.anos.toFixed(1))} anos até os ${R.idadeApos} = ${fmt(R.dias)} dias livres.`;
+  $('perde').textContent=on?`O que a 6x1 tira de você até os ${R.idadeApos}:`:'Sem a 6x1, isso tudo volta pra você:';
+  const sinal=on?'−':'+', itens=[
+    ['🏖️',R.dias,'dias de praia ou de descanso','#1497C4'],
+    ['👨‍👩‍👧',R.dias,'almoços de família no fim de semana','#FF6B4A'],
+    ['🍻',Math.round(R.dias/2),'encontros com os amigos','#7A4CE0'],
+    ['⚽',Math.round(R.dias/4),'peladas e jogos com a turma','#1FB57A'],
+    ['🎂',Math.round(R.anos*10/7),'aniversários e festas a mais caindo no seu dia de trabalho','#FF9F1C'],
+    ['📚',R.dias*4,'horas de estudo ou de curso','#1497C4'],
+    ['😴',R.dias*16,'horas acordado(a) e livre','#7A4CE0'],
+    ['🗓️',R.fds,'fins de semana de dois dias, como sábado e domingo','#FF6B4A'],
+    ['🌞',Math.round(R.dias/89),'verões inteiros, de dezembro a março','#FF9F1C'],
+    ['📅',Math.round(R.dias/7),'semanas inteiras, de segunda a domingo','#1FB57A'],
   ];
-  $('cards').innerHTML=itens.map(([n,l,c])=>`<div class="card" style="--c:${c}"><div class="num">${n}</div><p>${l}</p></div>`).join('');
-  $('prev').style.display='none';
-  if(on)[...$('cards').children].forEach((c,i)=>setTimeout(()=>c.classList.add('on'),(reduz?0:900)+i*160));
+  const anosTxt=(x=>x>=1?`${fmt(+x.toFixed(1))} ${+x.toFixed(1)===1?'ano':'anos'}`:`${fmt(Math.round(x*12))} meses`)(R.vida);
+  $('anos').textContent=`= ${anosTxt} inteiros da sua vida`;
+  const idade=R.idadeApos-R.anos; $('hoje').style.left=(idade/R.idadeApos*100)+'%'; $('hojetxt').style.marginLeft='0';
+  $('apostxt').textContent=`${R.idadeApos} anos`; $('perdido').style.width=on?(R.vida/R.idadeApos*100)+'%':'0';
+  $('vidarot').textContent=on?`Sua vida até os ${R.idadeApos}: o cinza é o tempo livre que a 6x1 leva (${anosTxt})`:`Sua vida até os ${R.idadeApos}`;
+  if($('cards').children.length!==itens.length+1){
+    $('cards').innerHTML=itens.map(([e,,l,c])=>`<div class="card" style="--c:${c}"><div class="ico">${e}</div><div class="num"><span class="sn"></span><span class="v"></span></div><p>${l}</p></div>`).join('')
+      +`<div class="card larga" style="--c:#7A4CE0"><div class="ico">👶</div><div class="num"><span class="sn"></span><span class="v"></span></div><p>é o tempo de uma criança nascer e chegar a essa idade</p></div>`;
+  }
+  const cs=[...$('cards').children];
+  cs.forEach((c,k)=>{c.querySelector('.sn').textContent=k<itens.length?sinal:''; const v=c.querySelector('.v');
+    setTimeout(()=>{c.classList.add('on'); if(k<itens.length) odo(v,fmt(itens[k][1])); else v.textContent=anosTxt},(reduz?0:500)+k*110)});
 }
 $('tg').onclick=()=>{
   const on=$('tg').getAttribute('aria-checked')!=='true'; $('tg').setAttribute('aria-checked',on);
