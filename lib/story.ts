@@ -58,7 +58,7 @@ export async function story(R: Conta): Promise<Blob> {
   cena(g, 0, true); cena(g, 960, false);
   caixa(g, 300, -3, "NA 6x1", "#5F656B", `−${fmt(R.dias)} dias`, "livres na minha vida", "#2A2D31", "#5F656B");
   caixa(g, 1250, 2, "NA 5x2", "#fd0000", `+${fmt(R.dias)} dias`, `de volta: ${fmt(R.fds)} fins de semana`, "#320d59", "#320d59");
-  const link = ("Faça a sua conta: " + (location.host + location.pathname).replace(/\/$/, "")).toUpperCase();
+  const link = "FAÇA A SUA CONTA: " + (location.host + location.pathname).replace(/\/$/, ""); // endereço em minúsculas: caminho do Pages diferencia maiúsculas
   bloco(g, 540, 1712, 900, 112, -2, "#fd0000", "#a20301", 12, (g) => {
     let tam = 52; g.font = display(tam); while (g.measureText(link).width > 840 && tam > 26) g.font = display(--tam); // link longo encolhe até caber
     g.fillStyle = "#ffffff"; g.textAlign = "center"; g.fillText(link, 0, tam * 0.36);
