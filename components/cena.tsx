@@ -64,7 +64,7 @@ export function Cena({ on, temConta, pulso }: { on: boolean; temConta: boolean; 
   }, [pulso]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="relative h-[clamp(52px,11dvh,200px)] overflow-hidden" aria-hidden="true">
+    <div className="relative h-[clamp(52px,9dvh,200px)] overflow-hidden" aria-hidden="true">
       <m.svg style={{ y: yCeu }} className="block h-full w-full transition-[filter] duration-1600 will-change-transform gray:brightness-92 gray:contrast-90 gray:grayscale" viewBox="0 170 390 190" preserveAspectRatio="xMidYMid slice">
         <defs><linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#0034d2" /><stop offset="1" stopColor="#ccd6f6" /></linearGradient></defs>
         <rect width="390" height="420" fill="url(#ceu)" />

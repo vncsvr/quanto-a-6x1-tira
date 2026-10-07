@@ -27,7 +27,7 @@ function Switch({
       onPointerLeave={solta}
       onPointerCancel={solta}
       className={cn(
-        "mx-auto mt-2 flex cursor-pointer [zoom:.5] [@media(min-height:700px)]:[zoom:.62] [@media(min-height:820px)]:[zoom:.72] [@media(min-height:900px)]:[zoom:.85] flex-col items-center gap-2 border-0 bg-transparent text-inherit [-webkit-tap-highlight-color:transparent]",
+        "mx-auto mt-2 flex cursor-pointer [zoom:.5] [@media(min-height:740px)]:[zoom:.62] [@media(min-height:820px)]:[zoom:.72] [@media(min-height:900px)]:[zoom:.85] flex-col items-center gap-2 border-0 bg-transparent text-inherit [-webkit-tap-highlight-color:transparent]",
         className
       )}
       {...props}
@@ -52,7 +52,7 @@ function Switch({
           />
         </SwitchPrimitive.Thumb>
       </m.span>
-      <span className="text-[13px] leading-normal font-bold tracking-[.12em] text-ink2 uppercase">{estado}</span>
+      <span className="text-[22px] leading-none font-bold tracking-[.12em] text-ink2 uppercase [@media(min-height:740px)]:text-[18px] [@media(min-height:900px)]:text-[13px] [@media(min-height:900px)]:leading-normal">{estado}</span>
     </SwitchPrimitive.Root>
   );
 }

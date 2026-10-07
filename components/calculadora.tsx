@@ -16,6 +16,8 @@ import { Caixa } from "@/components/caixa";
 const MOLA = { type: "spring", visualDuration: 0.7, bounce: 0.4 } as const;
 // número do cartão: quando a cor do filete não dá contraste sobre branco, usa o tom escuro da paleta
 const NUM: Record<string, string> = { "#ffd400": "#320d59", "#00b923": "#006820" };
+// linha da vida antes da data: alguém de 30 anos que aposenta aos 65
+const EXEMPLO = { idadeApos: 65, anos: 35, vida: (35 * 52) / 365.2425 };
 const DIAS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"];
 
 function le(nasc: string, apos: string): { R: Conta | null; err: string } {
@@ -90,6 +92,8 @@ export function Calculadora() {
   const vida = R ? anosTxt(R.vida) : "";
   const big = R ? fmt(on ? R.dias : R.dias * 2) : "—";
   const atraso = (k: number) => (reduz ? 0 : 0.5) + k * 0.11;
+  const mola = reduz ? { duration: 0 } : MOLA;
+  const V = R ?? EXEMPLO;
 
   return (
     <LazyMotion features={domAnimation} strict>
@@ -98,7 +102,7 @@ export function Calculadora() {
 
         <section className="px-5 pb-8">
           {/* primeira tela: título, data, número e o toggle cabem em 100dvh (360×640 em diante); o resto é bônus abaixo da dobra */}
-          <div className="flex min-h-[calc(100dvh-clamp(52px,11dvh,200px))] flex-col justify-evenly gap-[1.2dvh] pt-[1.5dvh]">
+          <div className="flex min-h-[calc(100dvh-clamp(52px,9dvh,200px))] flex-col justify-evenly gap-[1.2dvh] pt-[1.5dvh]">
           <h1 className="flex flex-wrap items-start gap-x-2 gap-y-[1dvh] text-[clamp(22px,min(7.4vw,4.4dvh),40px)] leading-[.95] whitespace-nowrap transition-[filter] duration-1000 gray:grayscale">
             <Caixa cor="#fd0000" lado="#a20301" giro={-3} className="text-white">Quanto da sua vida</Caixa>{" "}
             <Caixa cor="#ffd400" lado="#320d59" giro={2} className="text-roxo-escuro">a escala 6x1</Caixa>{" "}
@@ -106,15 +110,15 @@ export function Calculadora() {
           </h1>
           <div>
           <div className="grid grid-cols-[1fr_104px] gap-2.5">
-            <div><label className="rotulo" htmlFor="nasc">Data de nascimento</label><Input ref={nascRef} type="text" inputMode="numeric" autoComplete="bday" placeholder="DD/MM/AAAA" maxLength={10} id="nasc" /></div>
-            <div><label className="rotulo" htmlFor="apos">Aposenta aos</label><Input ref={aposRef} type="number" id="apos" defaultValue={65} min={50} max={80} inputMode="numeric" className="text-center" /></div>
+            <div><label className="rotulo" htmlFor="nasc">Data de nascimento</label><Input ref={nascRef} className="h-[clamp(44px,6.5dvh,52px)]" type="text" inputMode="numeric" autoComplete="bday" placeholder="DD/MM/AAAA" maxLength={10} id="nasc" /></div>
+            <div><label className="rotulo" htmlFor="apos">Aposenta aos</label><Input ref={aposRef} type="number" id="apos" defaultValue={65} min={50} max={80} inputMode="numeric" className="h-[clamp(44px,6.5dvh,52px)] text-center" /></div>
           </div>
           <p className="mt-1 text-[12px] leading-snug text-mute">Regra geral: 65 (homens), 62 (mulheres). A conta roda no seu celular: nada é enviado.</p>
           </div>
 
           <div className="text-center" aria-live="polite">
             <div className="rotulo" id="rot">{R ? `Seus dias livres até os ${R.idadeApos}` : "Coloque sua data para ver seus dias livres"}</div>
-            <div id="n" aria-label={big} className="condensada text-[clamp(52px,min(27vw,12dvh),124px)] leading-none text-ink tabular-nums transition-colors duration-1000 gray:text-chumbo">
+            <div id="n" aria-label={big} className="condensada text-[clamp(48px,min(27vw,10.5dvh),124px)] leading-none text-ink tabular-nums transition-colors duration-1000 gray:text-chumbo">
               {R ? <Odo txt={big} /> : "—"}
             </div>
             <div id="delta" className="min-h-[1.5em] font-display text-[clamp(16px,2.6dvh,21px)] leading-normal font-extrabold [font-stretch:75%] text-folga gray:text-alerta">
@@ -122,7 +126,7 @@ export function Calculadora() {
             </div>
             <m.div
               id="anos"
-              className="condensada text-[clamp(22px,min(7.6vw,4.4dvh),40px)] leading-[1.05] text-vermelho"
+              className="condensada text-[clamp(20px,min(6.6vw,3.8dvh),30px)] leading-[1.05] whitespace-nowrap text-vermelho"
               initial={false}
               animate={on && R ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
               transition={{ opacity: { duration: 0.5, delay: 0.9 }, scale: { ...MOLA, delay: 0.9 } }}
@@ -131,59 +135,63 @@ export function Calculadora() {
             </m.div>
           </div>
 
-          <Switch id="tg" checked={on} onCheckedChange={liga} label="Escala 6x1" estado={on ? "ligada" : "desligada"} />
-          </div>
-
-          <div className="mt-3.5 text-center">
-            <div className="mt-[18px] grid gap-2.5 text-left" aria-hidden="true">
+          {/* gráficos na 1ª dobra, junto do toggle: mudam na hora ao ligar/desligar. Sem data, a linha da vida usa um exemplo (30 anos, 65). */}
+          <div id="graficos" className="grid gap-[clamp(6px,1.2dvh,12px)] text-left" aria-hidden="true">
+            <div className="grid gap-1">
               {[["sem 6x1", "100%", "#00b923", "104"], ["você", on ? "50%" : "100%", on ? "#5F656B" : "#fd0000", on ? "52" : "104"]].map(([rot, w, cor, v]) => (
-                <div key={rot} className="grid grid-cols-[70px_1fr_54px] items-center gap-2.5 text-[13px] leading-normal font-bold text-ink2">
+                <div key={rot} className="grid grid-cols-[58px_1fr_64px] items-center gap-2 text-[12px] leading-[1.2] font-bold text-ink2">
                   <span>{rot}</span>
-                  <span className="block h-[18px] overflow-hidden rounded-[9px] bg-[rgba(27,27,58,.08)]">
-                    <m.span className="block h-full rounded-[9px]" initial={{ width: 0, backgroundColor: cor }} animate={{ width: w, backgroundColor: cor }} transition={{ width: MOLA, backgroundColor: { duration: 0.8 } }} />
+                  <span className="block h-[clamp(10px,1.8dvh,16px)] overflow-hidden rounded-full bg-[rgba(27,27,58,.08)]">
+                    <m.span className="block h-full rounded-full" initial={{ width: 0, backgroundColor: cor }} animate={{ width: w, backgroundColor: cor }} transition={{ width: mola, backgroundColor: { duration: reduz ? 0 : 0.8 } }} />
                   </span>
-                  <span className="text-right tabular-nums">{v}</span>
+                  <span className="text-right tabular-nums">{v}<span className="font-medium text-mute">/ano</span></span>
                 </div>
               ))}
             </div>
 
-            <div className="mt-[18px] text-left" aria-hidden="true">
-              <div className="rotulo">
-                {R ? (on ? `Sua vida até os ${R.idadeApos}: o cinza é o tempo livre que a 6x1 leva (${vida})` : `Sua vida até os ${R.idadeApos}`) : "Sua vida até a aposentadoria"}
+            <div>
+              <div className="rotulo !mb-1">
+                {R ? (on ? `Sua vida até os ${V.idadeApos} · cinza: o que a 6x1 leva` : `Sua vida até os ${V.idadeApos}`) : "Exemplo: 30 anos, aposenta aos 65"}
               </div>
-              <span className="relative block h-[26px] overflow-hidden rounded-[4px] bg-[linear-gradient(90deg,#ffd400,#fd0000_60%,#a237fb)]">
+              <span className="relative block h-[clamp(12px,2.2dvh,22px)] overflow-hidden rounded-[4px] bg-[linear-gradient(90deg,#ffd400,#fd0000_60%,#a237fb)]">
                 <m.span
                   className="absolute inset-y-0 right-0 bg-[repeating-linear-gradient(-45deg,#5F656B_0_8px,#727880_8px_16px)]"
                   initial={{ width: 0 }}
-                  animate={{ width: on && R ? `${(R.vida / R.idadeApos) * 100}%` : 0 }}
-                  transition={{ ...MOLA, visualDuration: 1.2, delay: 0.3 }}
+                  animate={{ width: on ? `${(V.vida / V.idadeApos) * 100}%` : 0 }}
+                  transition={reduz ? { duration: 0 } : { ...MOLA, visualDuration: 1.2, delay: 0.3 }}
                 />
-                <span className="absolute -top-1 -bottom-1 w-[3px] rounded-sm bg-ink" style={R ? { left: `${((R.idadeApos - R.anos) / R.idadeApos) * 100}%` } : undefined} />
+                <span className="absolute inset-y-0 w-[3px] rounded-sm bg-ink" style={{ left: `${((V.idadeApos - V.anos) / V.idadeApos) * 100}%` }} />
               </span>
-              <div className="mt-1.5 flex justify-between text-xs leading-normal font-bold text-ink2">
-                <span>nasceu</span><span>hoje</span><span>{R ? R.idadeApos : 65} anos</span>
+              <div className="mt-0.5 flex justify-between text-[11px] leading-[1.3] font-bold text-ink2">
+                <span>nasceu</span><span>hoje</span><span>{V.idadeApos} anos</span>
               </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-7 gap-1.5" aria-hidden="true">
-              {DIAS.map((d, i) => {
-                const perdeu = i === 5 && on, folga = i >= 5 && !perdeu;
-                return (
-                  <m.div
-                    key={d}
-                    className={`grid aspect-square place-items-center rounded-[4px] border-[1.5px] condensada text-[13px] leading-normal transition-colors duration-500 ${perdeu ? "border-[rgba(50,13,89,.14)] bg-[#5F656B] text-white" : folga ? "border-transparent bg-amarelo text-roxo-escuro" : "border-[rgba(50,13,89,.14)] bg-white text-ink2"}`}
-                    initial={false}
-                    animate={{ rotate: perdeu ? -8 : 0, scale: perdeu ? 0.92 : 1 }}
-                    transition={MOLA}
-                  >
-                    {d}
-                  </m.div>
-                );
-              })}
+            {/* fileira de dias: só quando sobra altura (a partir de 700px); em tela baixa ficam barras e linha da vida */}
+            <div className="hidden [@media(min-height:700px)]:block">
+              <div className="grid grid-cols-7 gap-1">
+                {DIAS.map((d, i) => {
+                  const perdeu = i === 5 && on, folga = i >= 5 && !perdeu;
+                  return (
+                    <m.div
+                      key={d}
+                      className={`grid h-[clamp(22px,3.6dvh,34px)] place-items-center rounded-[4px] border-[1.5px] condensada text-[12px] leading-none transition-colors duration-500 ${perdeu ? "border-[rgba(50,13,89,.14)] bg-[#5F656B] text-white" : folga ? "border-transparent bg-amarelo text-roxo-escuro" : "border-[rgba(50,13,89,.14)] bg-white text-ink2"}`}
+                      initial={false}
+                      animate={{ rotate: perdeu ? -8 : 0, scale: perdeu ? 0.92 : 1 }}
+                      transition={MOLA}
+                    >
+                      {d}
+                    </m.div>
+                  );
+                })}
+              </div>
+              <div className="mt-0.5 text-center text-[11px] leading-[1.3] text-mute">
+                {on ? "6x1: o sábado vira trabalho · 52 dias livres por ano" : "5x2: sábado e domingo livres · 104 dias livres por ano"}
+              </div>
             </div>
-            <div className="mt-1.5 min-h-[1.2em] text-center text-[12.5px] text-mute">
-              {on ? "6x1: o sábado vira trabalho · 52 dias livres por ano" : "5x2: sábado e domingo livres · 104 dias livres por ano"}
-            </div>
+          </div>
+
+          <Switch id="tg" checked={on} onCheckedChange={liga} label="Escala 6x1" estado={on ? "ligada" : "desligada"} />
           </div>
 
           <p className="mt-2.5 min-h-[1em] text-center font-medium text-alerta" id="err" role="alert">{err}</p>
