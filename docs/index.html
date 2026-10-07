@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quanto a 6x1 tira da sua vida?</title>
+<meta name="description" content="Coloque sua data de nascimento e veja quantos dias livres a escala 6x1 tira de você até a aposentadoria. A conta roda no seu celular: nada é enviado nem guardado.">
+<meta property="og:title" content="Quanto a 6x1 tira da sua vida?">
+<meta property="og:description" content="Faça a conta em 10 segundos. Nada é enviado nem guardado.">
+<meta property="og:image" content="https://vncsvr.github.io/quanto-a-6x1-tira/og.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#55B8F0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23FFC93C'/></svg>">
+<link rel="preload" href="fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Bricolage Grotesque';font-weight:200 800;font-display:swap;src:url(fonts/bricolage.woff2) format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:100 1000;font-display:swap;src:url(fonts/dmsans.woff2) format('woff2')}
+:root{--ink:#1B1B3A;--ink2:#4A4A63;--mute:#6A6E73;--paper:#FFF8EC;--coral:#FF6B4A;--violet:#7A4CE0;--sea:#1497C4;--green:#1FB57A;--gray:#ECEDEF}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--paper);color:var(--ink);font:400 16px/1.45 'DM Sans',system-ui,sans-serif;-webkit-text-size-adjust:100%}
+body{transition:background-color 1.6s ease}
+body.gray{background:var(--gray)}
+main{max-width:440px;margin:0 auto;min-height:100dvh}
+h1,h2,.num{font-family:'Bricolage Grotesque',system-ui,sans-serif;letter-spacing:-.02em}
+/* cena */
+.scene{position:relative;height:min(46dvh,420px);overflow:hidden}
+.scene .bg{width:100%;height:100%;display:block;transition:filter 1.6s ease}
+body.gray .scene .bg{filter:grayscale(1) brightness(.92) contrast(.9)}
+.cloud{position:absolute;left:50%;top:6%;width:170px;transform:translate(-50%,-160%);opacity:0;transition:transform 1.2s cubic-bezier(.2,.8,.2,1) .5s,opacity .6s .5s}
+body.gray .cloud{transform:translate(-50%,0);opacity:1}
+.drop{animation:rain .9s linear infinite}
+.drop:nth-child(2n){animation-delay:.3s}.drop:nth-child(3n){animation-delay:.6s}
+@keyframes rain{from{transform:translateY(-6px);opacity:0}30%{opacity:1}to{transform:translateY(26px);opacity:0}}
+.sun{transition:opacity 1.2s}
+body.gray .sun{opacity:0}
+/* formulário */
+.pad{padding:20px 24px 32px}
+h1{font-size:clamp(30px,8.6vw,36px);line-height:1.05;font-weight:800}
+.lead{color:var(--ink2);margin:10px 0 22px;font-size:15px}
+label,.lbl{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin:0 0 6px}
+input[type=date],input[type=number]{width:100%;height:52px;border:1.5px solid var(--ink);border-radius:14px;padding:0 14px;font:500 18px 'DM Sans',sans-serif;color:var(--ink);background:#fff;appearance:none}
+input:focus-visible,button:focus-visible{outline:3px solid var(--sea);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.esc{height:68px;border:0;border-radius:16px;color:#fff;font:700 17px/1.15 'Bricolage Grotesque',sans-serif;cursor:pointer;transition:transform .15s}
+.esc small{display:block;font:500 13px 'DM Sans',sans-serif;opacity:.85}
+.esc:active{transform:scale(.97)}
+.e52{background:var(--ink)}.e61{background:var(--coral)}
+.aposent{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;color:var(--ink2);font-size:14px}
+.aposent input{width:72px;height:38px;font-size:16px;text-align:center;padding:0 6px}
+.hint{color:var(--mute);font-size:13px;text-align:center;margin-top:8px}
+.err{color:#C0392B;font-weight:500;text-align:center;margin-top:12px;min-height:1em}
+/* contador */
+#conta{display:none}
+body.gray #form{display:none}
+body.gray #conta{display:block}
+#conta h2{font-size:26px;line-height:1.1;font-weight:700;color:#3A3D41}
+.big{font-size:clamp(76px,24vw,104px);line-height:1;font-weight:800;color:#2A2D31;margin:10px 0 4px;font-variant-numeric:tabular-nums}
+.sub{font-size:18px;font-weight:500;color:#3A3D41}
+.formula{color:var(--mute);font-size:14px;margin-top:6px}
+.cards{display:grid;gap:12px;margin-top:26px}
+.card{background:#fff;border-radius:20px;padding:18px 20px 18px 24px;border-left:8px solid var(--c);opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s}
+.card.on{opacity:1;transform:none}
+.card .num{font-size:40px;font-weight:800;color:var(--c);line-height:1.05}
+.card p{color:#3A3D41;font-weight:500;font-size:15px;margin-top:4px}
+.cta{display:block;width:100%;height:60px;border:0;border-radius:30px;background:var(--ink);color:#fff;font:700 17px 'Bricolage Grotesque',sans-serif;margin-top:24px;cursor:pointer}
+.link{display:block;margin:14px auto 0;background:none;border:0;color:var(--ink2);font:500 14px 'DM Sans',sans-serif;text-decoration:underline;cursor:pointer}
+.nota{font-size:12.5px;color:var(--mute);margin-top:22px;line-height:1.5}
+.nota a{color:inherit}
+footer{font-size:12px;color:var(--mute);padding:0 24px 32px;text-align:center}
+#prev{display:none;margin-top:18px;width:100%;border-radius:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main>
+<div class="scene" aria-hidden="true">
+<svg class="bg" viewBox="0 0 390 420" preserveAspectRatio="xMidYMax slice">
+ <defs><linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#55B8F0"/><stop offset="1" stop-color="#C8ECFF"/></linearGradient></defs>
+ <rect width="390" height="420" fill="url(#ceu)"/>
+ <circle class="sun" cx="295" cy="115" r="55" fill="#FFC93C"/>
+ <rect y="260" width="390" height="68" fill="#1497C4"/><rect y="260" width="390" height="10" fill="#3DBBE0"/>
+ <rect y="319" width="390" height="101" fill="#F6D9A6"/>
+ <g><rect x="60" y="246" width="34" height="90" rx="17" fill="#FF6B4A"/><circle cx="77" cy="229" r="14.3" fill="#FF6B4A"/>
+ <rect x="110" y="235" width="38" height="101" rx="19" fill="#7A4CE0"/><circle cx="129" cy="216" r="16" fill="#7A4CE0"/>
+ <rect x="165" y="273" width="24" height="63" rx="12" fill="#FF9F1C"/><circle cx="177" cy="261" r="10" fill="#FF9F1C"/>
+ <rect x="205" y="282" width="20" height="54" rx="10" fill="#1FB57A"/><circle cx="215" cy="272" r="8.6" fill="#1FB57A"/></g>
+</svg>
+<svg class="cloud" viewBox="0 0 170 120"><g fill="#5F656B"><ellipse cx="35" cy="55" rx="35" ry="25"/><ellipse cx="80" cy="40" rx="40" ry="40"/><ellipse cx="125" cy="52" rx="30" ry="27"/><rect x="10" y="50" width="140" height="30" rx="15"/></g>
+<g fill="#4A90B8"><rect class="drop" x="25" y="88" width="3" height="16" rx="1.5"/><rect class="drop" x="45" y="92" width="3" height="16" rx="1.5"/><rect class="drop" x="65" y="86" width="3" height="16" rx="1.5"/><rect class="drop" x="85" y="94" width="3" height="16" rx="1.5"/><rect class="drop" x="105" y="88" width="3" height="16" rx="1.5"/><rect class="drop" x="125" y="92" width="3" height="16" rx="1.5"/><rect class="drop" x="145" y="86" width="3" height="16" rx="1.5"/></g></svg>
+</div>
+
+<section class="pad" id="form">
+ <h1>Quanto da sua vida a escala 6x1 leva?</h1>
+ <p class="lead">Faça a conta. Ela roda só no seu celular: nada é enviado nem guardado.</p>
+ <label for="nasc">Data de nascimento</label>
+ <input type="date" id="nasc" min="1940-01-01" required>
+ <span class="lbl" style="margin-top:18px">Sua escala</span>
+ <div class="row" style="margin-top:0">
+  <button class="esc e52" id="b52" type="button">5x2<small>2 folgas</small></button>
+  <button class="esc e61" id="b61" type="button">6x1<small>1 folga</small></button>
+ </div>
+ <div class="aposent"><label for="apos" style="margin:0;text-transform:none;letter-spacing:0;font-size:14px;font-weight:500">Aposentadoria aos</label><input type="number" id="apos" value="65" min="50" max="80" inputmode="numeric"> anos</div>
+ <p class="hint">Regra geral: 65 anos para homens e 62 para mulheres (EC 103/2019). Ajuste se for o seu caso.</p>
+ <p class="err" id="err" role="alert"></p>
+</section>
+
+<section class="pad" id="conta" aria-live="polite">
+ <h2>Com a 6x1, você tem menos dias livres:</h2>
+ <div class="big num" id="n">0</div>
+ <div class="sub" id="ate">dias livres a menos até os 65</div>
+ <div class="formula" id="formula"></div>
+ <div class="cards" id="cards"></div>
+ <button class="cta" id="story" type="button">Gerar card para o story</button>
+ <img id="prev" alt="Card para o story com a sua conta">
+ <button class="link" id="refazer" type="button">Refazer a conta</button>
+ <p class="nota"><b>Como a conta é feita.</b> Na 6x1 você tem 1 folga por semana; na 5x2, 2. Isso dá 52 dias livres a menos por ano, vezes os anos que faltam até a aposentadoria. Supõe que você siga na 6x1 até lá. "Anos acordado(a)": cada dia conta 16 horas acordado.</p>
+ <p class="nota"><b>Fontes.</b> <a href="https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm" target="_blank" rel="noopener">Constituição, art. 7º, XIII e XV</a> (até 44 horas semanais; repouso semanal remunerado, de preferência aos domingos) · <a href="https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" target="_blank" rel="noopener">CLT, art. 67</a> (24 horas seguidas de descanso por semana) · <a href="https://www.planalto.gov.br/ccivil_03/constituicao/emendas/emc/emc103.htm" target="_blank" rel="noopener">EC 103/2019</a> (idade mínima de aposentadoria) · PEC 221/2019: reduz a jornada de 44 para 40 horas e garante 2 folgas por semana. Aprovada na Câmara e na CCJ do Senado; em discussão no plenário do Senado desde 06/10/2026 (<a href="https://www12.senado.leg.br/noticias/videos/2026/10/fim-da-escala-6x1-davi-explica-proximos-passos-da-pec-no-senado" target="_blank" rel="noopener">Agência Senado</a>).</p>
+</section>
+</main>
+<footer>Calculadora feita por um eleitor voluntário, sem fins comerciais. Sem cookies, sem cadastro, sem coleta de dados.</footer>
+
+<script>
+const $=id=>document.getElementById(id), fmt=n=>n.toLocaleString('pt-BR');
+const reduz=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let R=null;
+
+// A conta: 1 folga a menos por semana × semanas até a aposentadoria (52 por ano).
+function calcula(nasc, idadeApos, hoje=new Date()){
+  const apos=new Date(nasc); apos.setFullYear(nasc.getFullYear()+idadeApos);
+  const anos=(apos-hoje)/(365.2425*864e5);
+  if(anos<=0) return {erro:'Pela data, você já chegou na idade de aposentadoria. Mostra a conta para alguém da família!'};
+  if((hoje-nasc)/(365.2425*864e5)<14) return {erro:'Ainda não tem idade para trabalhar. Faz a conta de alguém da família!'};
+  const dias=Math.round(anos*52);
+  return {anos, dias, fds:Math.round(dias/2), vida:dias/365.2425, idadeApos};
+}
+
+$('b61').onclick=()=>{
+  const v=$('nasc').value, ap=parseInt($('apos').value,10);
+  if(!v){$('err').textContent='Coloque sua data de nascimento primeiro.';$('nasc').focus();return}
+  if(!(ap>=50&&ap<=80)){$('err').textContent='Idade de aposentadoria entre 50 e 80.';return}
+  const [y,m,d]=v.split('-').map(Number); R=calcula(new Date(y,m-1,d),ap);
+  if(R.erro){$('err').textContent=R.erro;return}
+  $('err').textContent=''; mostra();
+};
+$('b52').onclick=()=>{$('err').textContent='Na 5x2 você tem 104 dias livres por ano. Agora toque em 6x1 para comparar.'};
+
+function mostra(){
+  document.body.classList.add('gray'); scrollTo({top:0,behavior:reduz?'auto':'smooth'});
+  $('ate').textContent=`dias livres a menos até os ${R.idadeApos}`;
+  $('formula').textContent=`52 dias por ano × ${fmt(+R.anos.toFixed(1))} anos de trabalho`;
+  const itens=[
+    [fmt(R.fds),'fins de semana de dois dias, como sábado e domingo','#FF6B4A'],
+    [fmt(R.dias),'domingos: é como perder um domingo por semana, toda semana','#7A4CE0'],
+    [fmt(R.dias),'dias de praia, de família, de nada pra fazer','#1497C4'],
+    [R.vida>=1?`${fmt(+R.vida.toFixed(1))} anos`:`${fmt(Math.round(R.vida*12))} meses`,'da sua vida acordado(a), sem nenhum dia livre','#1FB57A'],
+  ];
+  $('cards').innerHTML=itens.map(([n,l,c])=>`<div class="card" style="--c:${c}"><div class="num">${n}</div><p>${l}</p></div>`).join('');
+  $('prev').style.display='none';
+  const dur=reduz?0:2200, t0=performance.now()+700;
+  (function tick(t){const k=Math.min(Math.max((t-t0)/dur,0),1), e=1-Math.pow(1-k,3);
+    $('n').textContent=fmt(Math.round(R.dias*e));
+    if(k<1)requestAnimationFrame(tick); else [...$('cards').children].forEach((c,i)=>setTimeout(()=>c.classList.add('on'),i*180));
+  })(performance.now());
+}
+$('refazer').onclick=()=>{document.body.classList.remove('gray');$('n').textContent='0';scrollTo(0,0)};
+
+// Card do story 1080×1920: metade cinza (6x1) × metade colorida (5x2)
+function cena(g,y0,cinza){
+  const c=cinza?{a:'#8E959C',b:'#C9CDD1',sea:'#7B8288',sea2:'#9AA0A6',sand:'#BFC2C5',f:['#6E747A','#5D6369','#80868C','#73797F']}:{a:'#55B8F0',b:'#C8ECFF',sea:'#1497C4',sea2:'#3DBBE0',sand:'#F6D9A6',f:['#FF6B4A','#7A4CE0','#FF9F1C','#1FB57A']};
+  const gr=g.createLinearGradient(0,y0,0,y0+960);gr.addColorStop(0,c.a);gr.addColorStop(1,c.b);g.fillStyle=gr;g.fillRect(0,y0,1080,960);
+  if(!cinza){g.fillStyle='#FFC93C';g.beginPath();g.arc(890,y0+480,90,0,7);g.fill()}
+  g.fillStyle=c.sea;g.fillRect(0,y0+595,1080,155);g.fillStyle=c.sea2;g.fillRect(0,y0+595,1080,22);g.fillStyle=c.sand;g.fillRect(0,y0+730,1080,230);
+  [[166,1,0],[305,1.12,1],[457,.7,2],[568,.6,3]].forEach(([x,s,i])=>{const h=250*s,w=94*s,b=y0+770;g.fillStyle=c.f[i];g.beginPath();g.roundRect(x,b-h,w,h,w/2);g.fill();g.beginPath();g.arc(x+w/2,b-h-w*.55,w*.42,0,7);g.fill()});
+  if(cinza){g.fillStyle='#5F656B';[[800,470,80,58],[870,435,95,95],[955,465,70,62]].forEach(([x,y,rx,ry])=>{g.beginPath();g.ellipse(x,y0+y,rx,ry,0,0,7);g.fill()});g.fillStyle='#4A90B8';for(let i=0;i<9;i++)g.fillRect(765+i*28,y0+545+(i%3)*18,6,30)}
+}
+function caixa(g,y,rotulo,cor,num,linha,fundo){
+  g.fillStyle='rgba(255,255,255,.95)';g.beginPath();g.roundRect(60,y,960,330,36);g.fill();
+  g.fillStyle=cor;g.font="700 32px 'DM Sans'";g.fillText(rotulo,104,y+66);
+  g.fillStyle=fundo;g.font="800 112px 'Bricolage Grotesque'";g.fillText(num,100,y+190);
+  g.font="700 44px 'Bricolage Grotesque'";g.fillText(linha,104,y+280);
+}
+$('story').onclick=async()=>{
+  await document.fonts.ready;
+  const cv=document.createElement('canvas');cv.width=1080;cv.height=1920;const g=cv.getContext('2d');
+  cena(g,0,true);cena(g,960,false);
+  caixa(g,70,'NA 6x1','#6A6E73',`−${fmt(R.dias)} dias`,'livres na minha vida','#2A2D31');
+  caixa(g,1030,'NA 5x2','#E0502F',`+${fmt(R.dias)} dias`,`de volta: ${fmt(R.fds)} fins de semana`,'#1B1B3A');
+  g.fillStyle='#1B1B3A';g.beginPath();g.roundRect(120,1690,840,116,58);g.fill();
+  g.fillStyle='#fff';g.font="700 38px 'DM Sans'";g.textAlign='center';g.fillText('Faça a sua conta: '+location.host,540,1762);
+  g.fillStyle='#1B1B3A';g.font="400 26px 'DM Sans'";g.fillText('Conta feita no meu celular. Nenhum dado enviado.',540,1862);
+  const blob=await new Promise(r=>cv.toBlob(r,'image/png')), file=new File([blob],'minha-conta-6x1.png',{type:'image/png'});
+  $('prev').src=URL.createObjectURL(blob);$('prev').style.display='block';
+  if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],text:'Quanto a 6x1 tira da sua vida? Faça a sua conta: '+location.origin});return}catch(e){if(e.name==='AbortError')return}}
+  const a=document.createElement('a');a.href=$('prev').src;a.download=file.name;a.click();
+};
+</script>
+</body>
+</html>
