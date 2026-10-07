@@ -1,0 +1,4 @@
+:HL["/quanto-a-6x1-tira/_next/static/chunks/327lt5evw-pym.css","style"]
+:HL["/quanto-a-6x1-tira/_next/static/media/bricolage-s.p.2ej1fmte5yjhi.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+1:[["children",{"s":"__PAGE__","h":160}]]
+0:{"b":"bZzYxqpHXYW6h1i-3Fe8B","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
